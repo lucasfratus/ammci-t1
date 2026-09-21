@@ -1,0 +1,12 @@
+{
+  "hidden_layer_sizes": [
+    32
+  ],
+  "alpha": 0.0001,
+  "learning_rate_init": 0.003,
+  "max_iter": 100,
+  "mcc_validacao_d0": 0.3205225528889924,
+  "mcc_desvio_d0": 0.06200406464274823,
+  "folds": 4,
+  "seed_busca": 42
+}

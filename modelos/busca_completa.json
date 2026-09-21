@@ -1,0 +1,224 @@
+[
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        32
+      ],
+      "alpha": 0.0001,
+      "learning_rate_init": 0.003
+    },
+    "mcc_medio": 0.3205225528889924,
+    "mcc_desvio": 0.06200406464274823,
+    "mcc_por_fold": [
+      0.4091,
+      0.3473,
+      0.2721,
+      0.2536
+    ],
+    "tempo_medio_s": 3.8
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        32
+      ],
+      "alpha": 0.001,
+      "learning_rate_init": 0.003
+    },
+    "mcc_medio": 0.32021284561042324,
+    "mcc_desvio": 0.059072395960704495,
+    "mcc_por_fold": [
+      0.4065,
+      0.3421,
+      0.2752,
+      0.257
+    ],
+    "tempo_medio_s": 4.5
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        32
+      ],
+      "alpha": 0.01,
+      "learning_rate_init": 0.001
+    },
+    "mcc_medio": 0.3181133199919163,
+    "mcc_desvio": 0.06137715665302773,
+    "mcc_por_fold": [
+      0.4094,
+      0.3385,
+      0.2682,
+      0.2562
+    ],
+    "tempo_medio_s": 5.4
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        64,
+        32
+      ],
+      "alpha": 0.01,
+      "learning_rate_init": 0.001
+    },
+    "mcc_medio": 0.3168395249090739,
+    "mcc_desvio": 0.05519116263589715,
+    "mcc_por_fold": [
+      0.3961,
+      0.3387,
+      0.2788,
+      0.2538
+    ],
+    "tempo_medio_s": 8.6
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        64,
+        32
+      ],
+      "alpha": 0.0001,
+      "learning_rate_init": 0.001
+    },
+    "mcc_medio": 0.316042301669586,
+    "mcc_desvio": 0.05231364591854154,
+    "mcc_por_fold": [
+      0.391,
+      0.3382,
+      0.2748,
+      0.2601
+    ],
+    "tempo_medio_s": 9.7
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        32
+      ],
+      "alpha": 0.0001,
+      "learning_rate_init": 0.001
+    },
+    "mcc_medio": 0.3157359977308421,
+    "mcc_desvio": 0.06101254441240989,
+    "mcc_por_fold": [
+      0.4052,
+      0.3384,
+      0.267,
+      0.2525
+    ],
+    "tempo_medio_s": 4.4
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        32
+      ],
+      "alpha": 0.01,
+      "learning_rate_init": 0.003
+    },
+    "mcc_medio": 0.31564181116454787,
+    "mcc_desvio": 0.06417492653063431,
+    "mcc_por_fold": [
+      0.4114,
+      0.3365,
+      0.2628,
+      0.2519
+    ],
+    "tempo_medio_s": 4.6
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        32
+      ],
+      "alpha": 0.001,
+      "learning_rate_init": 0.001
+    },
+    "mcc_medio": 0.3137033839114689,
+    "mcc_desvio": 0.06194980128403492,
+    "mcc_por_fold": [
+      0.4043,
+      0.3364,
+      0.2671,
+      0.247
+    ],
+    "tempo_medio_s": 5.3
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        64,
+        32
+      ],
+      "alpha": 0.001,
+      "learning_rate_init": 0.001
+    },
+    "mcc_medio": 0.3136297813249019,
+    "mcc_desvio": 0.054622170851538414,
+    "mcc_por_fold": [
+      0.3951,
+      0.3312,
+      0.2707,
+      0.2575
+    ],
+    "tempo_medio_s": 9.1
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        64,
+        32
+      ],
+      "alpha": 0.01,
+      "learning_rate_init": 0.003
+    },
+    "mcc_medio": 0.29912171036567364,
+    "mcc_desvio": 0.04403373034373951,
+    "mcc_por_fold": [
+      0.3553,
+      0.3288,
+      0.2604,
+      0.252
+    ],
+    "tempo_medio_s": 8.6
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        64,
+        32
+      ],
+      "alpha": 0.0001,
+      "learning_rate_init": 0.003
+    },
+    "mcc_medio": 0.29891360654992327,
+    "mcc_desvio": 0.04379017323320242,
+    "mcc_por_fold": [
+      0.3569,
+      0.3256,
+      0.2594,
+      0.2538
+    ],
+    "tempo_medio_s": 9.4
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        64,
+        32
+      ],
+      "alpha": 0.001,
+      "learning_rate_init": 0.003
+    },
+    "mcc_medio": 0.29511096657462377,
+    "mcc_desvio": 0.04542103111943131,
+    "mcc_por_fold": [
+      0.3516,
+      0.3279,
+      0.249,
+      0.252
+    ],
+    "tempo_medio_s": 9.9
+  }
+]
