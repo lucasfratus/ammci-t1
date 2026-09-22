@@ -1,0 +1,75 @@
+{
+  "dataset": {
+    "kaggle": "ludmin/billboard",
+    "versao": 175,
+    "inicio_auditoria": "2013-01-01",
+    "fim_exclusivo_auditoria": "2023-12-20",
+    "d2_inspecionado": false
+  },
+  "fontes": {
+    "billboard200.csv": {
+      "bytes": 71620154,
+      "sha256": "935e07ee3344865a04dca15a4fb60536f6bb16f89b3cf58284988dd7a3c2018c",
+      "confere_com_v175": true
+    },
+    "digital.csv": {
+      "bytes": 6874975,
+      "sha256": "6a2ce94ed2a8e80f5be357bfd8953006dbb604ae58e4d9e61c75976700099560",
+      "confere_com_v175": true
+    },
+    "hot100.csv": {
+      "bytes": 38331735,
+      "sha256": "6fc2df245ae37eac5281635e448d9faf0c8106e44acefb42bd1de1c31f9ea6a4",
+      "confere_com_v175": true
+    },
+    "radio.csv": {
+      "bytes": 11398157,
+      "sha256": "705aff2774eca122578aea60e21c1285287ff74af8201f540d9d88bf3b1741e5",
+      "confere_com_v175": true
+    },
+    "streaming.csv": {
+      "bytes": 4823488,
+      "sha256": "8edee61e7721c8c0e217d44d42427bb6e1015e26a9f61bae7c3cd4420f298be1",
+      "confere_com_v175": true
+    }
+  },
+  "peak_pos": {
+    "linhas_auditadas": 57200,
+    "continuacoes_de_passagem": 50855,
+    "novas_passagens": 6345,
+    "antecipa_pico_nao_observado": 0,
+    "esquece_pico_anterior": 0,
+    "conclusao": "peak_pos e causal no recorte auditado"
+  },
+  "normalizacao": {
+    "por_arquivo": {
+      "hot100": {
+        "linhas_no_recorte": 57200,
+        "linhas_em_chaves_semanais_duplicadas": 0,
+        "chaves_titulo_artista_com_multiplas_grafias": 0
+      },
+      "radio": {
+        "linhas_no_recorte": 28600,
+        "linhas_em_chaves_semanais_duplicadas": 0,
+        "chaves_titulo_artista_com_multiplas_grafias": 0
+      },
+      "streaming": {
+        "linhas_no_recorte": 28500,
+        "linhas_em_chaves_semanais_duplicadas": 0,
+        "chaves_titulo_artista_com_multiplas_grafias": 0
+      },
+      "digital": {
+        "linhas_no_recorte": 28400,
+        "linhas_em_chaves_semanais_duplicadas": 0,
+        "chaves_titulo_artista_com_multiplas_grafias": 0
+      },
+      "billboard200": {
+        "linhas_no_recorte": 114400,
+        "linhas_em_chaves_semanais_duplicadas": 30,
+        "chaves_titulo_artista_com_multiplas_grafias": 1
+      }
+    },
+    "chaves_de_artista_com_multiplas_grafias": 91,
+    "observacao": "As duplicatas do billboard200 sao os albuns '+', '-' e '=' de Ed Sheeran. Elas nao alteram album_rank, pois a feature usa intencionalmente o melhor rank do artista na semana."
+  }
+}

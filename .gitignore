@@ -1,4 +1,8 @@
 .venv/
+.ipynb_checkpoints/
 dados/*.csv
+dados/.*.part
+dados/*.zip
 dados/processados/*.csv
 __pycache__/
+*.pyc

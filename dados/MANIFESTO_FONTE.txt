@@ -1,0 +1,11 @@
+dataset=kaggle:ludmin/billboard
+versao=175
+publicado_em=2026-09-16
+baixado_em=2026-09-21
+pagina=https://www.kaggle.com/datasets/ludmin/billboard
+zip_sha256=833d4bb30936c20a6be52ca5512ccb87e3c2e38f69d48e17848b809d2f508744
+billboard200.csv sha256=935e07ee3344865a04dca15a4fb60536f6bb16f89b3cf58284988dd7a3c2018c bytes=71620154
+digital.csv sha256=6a2ce94ed2a8e80f5be357bfd8953006dbb604ae58e4d9e61c75976700099560 bytes=6874975
+hot100.csv sha256=6fc2df245ae37eac5281635e448d9faf0c8106e44acefb42bd1de1c31f9ea6a4 bytes=38331735
+radio.csv sha256=705aff2774eca122578aea60e21c1285287ff74af8201f540d9d88bf3b1741e5 bytes=11398157
+streaming.csv sha256=8edee61e7721c8c0e217d44d42427bb6e1015e26a9f61bae7c3cd4420f298be1 bytes=4823488

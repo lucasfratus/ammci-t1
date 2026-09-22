@@ -187,11 +187,11 @@ def bloco_2_cobertura(dados: dict[str, pd.DataFrame], inicio: str) -> None:
         f"({round(100 * tem_todas.mean(), 1)}%)"
     )
     print(
-        "\nCriterio de decisao:"
-        "\n  cobertura simultanea >= 40%  -> vale o join, use features cross-chart"
-        "\n  cobertura simultanea <  40%  -> abandone o join, va de lags do proprio hot100"
-        "\n  entre 25% e 40%              -> use o join com indicador de ausencia"
-        "\n                                  ('fora do top N' e informacao, nao dado faltante)"
+        "\nInterpretacao:"
+        "\n  cada parada secundaria deve ser usada separadamente, sempre acompanhada"
+        "\n  por seu indicador de presenca. A cobertura simultanea das tres nao e um"
+        "\n  requisito e nao se deve filtrar apenas os casos completos. Estar fora do"
+        "\n  top 50 e informacao potencialmente preditiva, nao um ausente aleatorio."
     )
 
 
