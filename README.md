@@ -119,7 +119,20 @@ Esse comando abre somente D0 e D1. Ele treina M0 em três seeds (`42`, `1337` e
 `2024`), divide D1 cronologicamente em D1a/D1b e compara três configurações de
 fine-tuning. A escolha atual é a configuração `B_lr_original`, com 11 épocas.
 
-### 5. Avaliação final
+### 5. Regressão logística implementada do zero
+
+```bash
+python -m unittest -v test_regressao_logistica_zero.py
+python comparar_regressao_logistica.py
+```
+
+O primeiro comando testa estabilidade numérica, validação de erros,
+regularização L2 e equivalência com a biblioteca em dados controlados. O
+segundo abre somente D0, escolhe a configuração própria em quatro folds
+temporais e a compara com `sklearn.linear_model.LogisticRegression`. Os
+resultados são gravados em `resultados/regressao_logistica/`.
+
+### 6. Avaliação final
 
 Ainda não implementada. Ela deverá treinar M0, MFT, MRT e MREC com o protocolo
 já congelado e somente então avaliar os quatro modelos em D2.
@@ -135,11 +148,16 @@ já congelado e somente então avaliar os quatro modelos em D2.
 ├── ajustar_mlp.py              # busca temporal de hiperparâmetros
 ├── diagnostico_convergencia.py # número de épocas da MLP
 ├── selecionar_finetuning.py    # seleção em D1a/D1b
+├── regressao_logistica_zero.py # algoritmo didático em NumPy
+├── comparar_regressao_logistica.py
+├── test_regressao_logistica_zero.py
 ├── dados/
 │   ├── MANIFESTO_FONTE.txt
 │   └── processados/manifesto.txt
 ├── modelos/                    # resultados da MLP e fine-tuning
-└── resultados/auditoria_integridade/
+└── resultados/
+    ├── auditoria_integridade/
+    └── regressao_logistica/
 ```
 
 ## Resultados reproduzidos até aqui
@@ -151,7 +169,10 @@ já congelado e somente então avaliar os quatro modelos em D2.
 - configuração de fine-tuning escolhida: taxa original durante 11 épocas;
 - MCC médio em D1b após fine-tuning: `0,2116`, ganho de `0,0191` sobre M0;
 - zero inconsistências causais de `peak_pos` nas 50.855 continuações de
-  passagem auditadas em D0+D1.
+  passagem auditadas em D0+D1;
+- regressão logística do zero: MCC temporal `0,2945 ± 0,0506` em D0;
+- implementação própria e scikit-learn: 100% de concordância nas classes e
+  correlação `0,9999999` entre probabilidades.
 
 ## Reprodutibilidade e dados ignorados
 

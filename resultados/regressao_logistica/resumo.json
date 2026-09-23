@@ -1,0 +1,112 @@
+{
+  "protocolo": {
+    "dados_lidos": "somente D0",
+    "linhas": 42800,
+    "semanas": 428,
+    "folds_temporais": 4,
+    "metrica_de_selecao": "MCC",
+    "limiar_classificacao": 0.5,
+    "estocastico": false,
+    "observacao_seeds": "Nao se aplicam: gradiente em lote e L-BFGS sao deterministicos."
+  },
+  "linha_base": {
+    "estrategia": "sempre prever a classe majoritaria (0)",
+    "accuracy_em_D0": 0.6383878504672897,
+    "mcc": 0.0
+  },
+  "configuracoes_testadas": 6,
+  "configuracao_escolhida": {
+    "nome": "lr_1_balanceado",
+    "taxa_aprendizado": 1.0,
+    "class_weight": "balanced",
+    "l2": 0.0,
+    "max_iter": 6000,
+    "tolerancia": 1e-11,
+    "criterio_selecao": "maior MCC medio arredondado a 4 casas; desempate por menor tempo medio; exige convergencia em todos os folds",
+    "mcc_medio": 0.2944700753600358,
+    "mcc_desvio": 0.05061279332267496
+  },
+  "comparacao": {
+    "NumPy (do zero)": {
+      "mcc": {
+        "media": 0.2944700753600358,
+        "desvio": 0.050612793322674925
+      },
+      "f1": {
+        "media": 0.5658543775724538,
+        "desvio": 0.05682524768073388
+      },
+      "precision": {
+        "media": 0.5114029920573936,
+        "desvio": 0.04143996208296364
+      },
+      "recall": {
+        "media": 0.6352170253757206,
+        "desvio": 0.08480307991459647
+      },
+      "accuracy": {
+        "media": 0.6592414500683994,
+        "desvio": 0.012699660146608054
+      },
+      "roc_auc": {
+        "media": 0.6971302657601797,
+        "desvio": 0.03345765517891951
+      },
+      "pr_auc": {
+        "media": 0.5331331973621514,
+        "desvio": 0.05225590443653997
+      },
+      "tempo_treino_s": {
+        "media": 3.0128287122488473,
+        "desvio": 1.5777069024235992
+      },
+      "iteracoes": {
+        "media": 2257.75,
+        "desvio": 2400.3609971557753
+      }
+    },
+    "scikit-learn": {
+      "mcc": {
+        "media": 0.2944700753600358,
+        "desvio": 0.050612793322674925
+      },
+      "f1": {
+        "media": 0.5658543775724538,
+        "desvio": 0.05682524768073388
+      },
+      "precision": {
+        "media": 0.5114029920573936,
+        "desvio": 0.04143996208296364
+      },
+      "recall": {
+        "media": 0.6352170253757206,
+        "desvio": 0.08480307991459647
+      },
+      "accuracy": {
+        "media": 0.6592414500683994,
+        "desvio": 0.012699660146608054
+      },
+      "roc_auc": {
+        "media": 0.6971312319613467,
+        "desvio": 0.03345622852440848
+      },
+      "pr_auc": {
+        "media": 0.5331108779528938,
+        "desvio": 0.05221465690989617
+      },
+      "tempo_treino_s": {
+        "media": 0.4935314162503346,
+        "desvio": 0.5262855800221622
+      },
+      "iteracoes": {
+        "media": 49.75,
+        "desvio": 8.578072821638514
+      }
+    }
+  },
+  "coerencia_entre_implementacoes": {
+    "correlacao_probabilidades_media": 0.9999998985519373,
+    "diferenca_absoluta_media": 1.996795611986225e-05,
+    "concordancia_classes_media": 1.0
+  }
+}
