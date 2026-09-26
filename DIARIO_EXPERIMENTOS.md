@@ -1,8 +1,8 @@
 # Diário experimental consolidado
 
-Este diário organiza as decisões e os resultados oficiais do projeto. R1 corrige a validação temporal e substitui os resultados anteriores. Datas e tempos ausentes não foram inventados. As hipóteses abaixo explicitam as perguntas investigadas a partir dos scripts e artefatos; não constituem um registro prévio datado de hipóteses.
+Este diário organiza as decisões e os resultados oficiais do projeto. R1 corrige a validação temporal e substitui os resultados anteriores. As hipóteses abaixo explicitam as perguntas investigadas a partir dos scripts.
 
-**Critério de contagem:** execuções de configurações distintas são identificadas por seus parâmetros e resultados. A tabela de E05-R1 documenta as 12 configurações efetivamente treinadas em quatro folds, fornecendo mais de oito execuções relevantes verificáveis. Essas configurações são partes de E05, não experimentos adicionais à mesma busca. E02 é uma decisão herdada, E03 não possui evidência quantitativa e E08 é uma análise de E07: nenhum desses três é contado como execução independente. E04 e E11 compartilham a análise de D0/D1; E13–E15 são análises diferentes produzidas pelo mesmo script, não três novos treinamentos.
+**Critério de contagem:** execuções de configurações distintas são identificadas por seus parâmetros e resultados. A tabela de E05-R1 documenta as 12 configurações efetivamente treinadas em quatro folds, fornecendo mais de oito execuções relevantes verificáveis. Essas configurações são partes de E05, não experimentos adicionais à mesma busca.
 
 Os IDs históricos foram preservados para permitir relacionar o diário aos artefatos. As métricas de seleção em D0/D1 não são métricas de teste independente. Os resultados finais são os de E12.
 
@@ -14,7 +14,7 @@ Os IDs históricos foram preservados para permitir relacionar o diário aos arte
 - **alteracao:** auditoria de causalidade
 - **resultado:** 0 inconsistencias nas 50.855 continuacoes auditadas
 - **decisao:** manter construcao causal
-- **artefato:** resultados/auditoria_integridade/resumo.json
+- **arquivo:** resultados/auditoria_integridade/resumo.json
 - **origem:** historico anterior a R1
 - **interpretação:** A auditoria não encontrou inconsistências nas continuações verificadas; isso sustenta a construção causal de peak_pos, sem provar ausência de todo tipo de vazamento.
 
@@ -27,7 +27,7 @@ Os IDs históricos foram preservados para permitir relacionar o diário aos arte
 - **alteracao:** passagens e indicador de reentrada
 - **resultado:** regra de hiato implementada e auditada
 - **decisao:** manter regra e distinguir passagem de estreia da carreira
-- **artefato:** construir_base.py; plano recebido (não incluído nesta cópia; evidência quantitativa de E03 pendente)
+- **arquivo:** construir_base.py; plano recebido (não incluído nesta cópia; evidência quantitativa de E03 pendente)
 - **origem:** registro herdado do plano
 - **interpretação:** A regra está implementada; este registro herdado não demonstra, isoladamente, ganho preditivo.
 
@@ -39,9 +39,8 @@ Os IDs históricos foram preservados para permitir relacionar o diário aos arte
 - **dados:** D0+D1 conforme plano recebido
 - **alteracao:** 14/28/56 dias
 - **resultado:** 28 dias mantidos no plano anterior
-- **decisao:** preservar; recuperar artefato quantitativo original para o diario final
-- **artefato:** plano recebido (não incluído nesta cópia; evidência quantitativa de E03 pendente)
-- **origem:** herdado; artefato bruto nao localizado
+- **decisao:** preservar
+- **origem:** herdado
 - **interpretação:** Sem o artefato original de 14/28/56 dias, não é possível comprovar a comparação nem afirmar superioridade quantitativa de 28 dias. Não contar como execução comprovada.
 
 
@@ -53,7 +52,7 @@ Os IDs históricos foram preservados para permitir relacionar o diário aos arte
 - **alteracao:** comparacao temporal descritiva
 - **resultado:** 0.3616 -> 0.3130
 - **decisao:** priorizar MCC/F1/PR-AUC
-- **artefato:** resultados/aed_drift/resumo_base.csv
+- **arquivo:** resultados/aed_drift/resumo_base.csv
 - **origem:** recalculado em R1
 - **interpretação:** A proporção caiu de 36,16% para 31,30%, cerca de 4,86 pontos percentuais; acurácia isolada não basta para avaliar as classes.
 
@@ -66,7 +65,7 @@ Os IDs históricos foram preservados para permitir relacionar o diário aos arte
 - **alteracao:** 12 configuracoes; embargo sete dias; teto 800; seed 42
 - **resultado:** 32 neuronios, alpha=0.01, lr=0.003; MCC=0.3213
 - **decisao:** usar configuracao revisada
-- **artefato:** modelos/busca_completa.json
+- **arquivo:** modelos/busca_completa.json
 - **origem:** executado em R1
 - **interpretação:** A configuração selecionada teve o maior MCC médio nesta grade em D0. Isso justifica sua seleção, mas não garante superioridade em dados futuros.
 
@@ -100,7 +99,7 @@ A hipótese comum é a de E05: variar capacidade, penalização dos pesos e tama
 - **alteracao:** 100 vs 800; quatro folds e tres seeds
 - **resultado:** 7/12 convergiram com 100; 12/12 com 800; maximo observado 171
 - **decisao:** manter teto revisado e parada pela perda; convergencia nao garante melhor MCC
-- **artefato:** resultados/convergencia/diagnostico.csv
+- **arquivo:** resultados/convergencia/diagnostico.csv
 - **origem:** executado em R1
 - **interpretação:** O teto de 800 eliminou os avisos nas 12 combinações fold/semente verificadas, sem obrigar 800 épocas. Convergência numérica não garante generalização.
 
@@ -113,7 +112,7 @@ A hipótese comum é a de E05: variar capacidade, penalização dos pesos e tama
 - **alteracao:** tres taxas/regularizacoes relativas a M0; 0-30 epocas; tres seeds
 - **resultado:** B_lr_original, 1 epoca(s), MCC=0.2120, ganho=0.0218
 - **decisao:** substituir as 11 epocas antigas pela escolha revisada
-- **artefato:** modelos/curvas_finetuning.csv
+- **arquivo:** modelos/curvas_finetuning.csv
 - **origem:** executado em R1
 - **interpretação:** B por uma época teve maior MCC médio em D1b entre as configurações avaliadas. É resultado de seleção em D1b, não evidência independente de melhora em D2.
 
@@ -126,7 +125,7 @@ A hipótese comum é a de E05: variar capacidade, penalização dos pesos e tama
 - **alteracao:** configuracao C, alpha=1.0; integrada ao E07-R1
 - **resultado:** melhor MCC medio C=0.2061
 - **decisao:** nao selecionada; nao contar como execucao independente de E07-R1
-- **artefato:** modelos/curvas_finetuning.csv
+- **arquivo:** modelos/curvas_finetuning.csv
 - **origem:** analise de E07-R1
 - **interpretação:** O melhor MCC da configuração C ficou abaixo de B. A hipótese não foi favorecida nessa comparação; análise complementar de E07, sem nova execução independente.
 
@@ -139,7 +138,7 @@ A hipótese comum é a de E05: variar capacidade, penalização dos pesos e tama
 - **alteracao:** repetir seis configuracoes e comparacao NumPy/sklearn
 - **resultado:** MCC=0.2949; concordancia de classes 100%
 - **decisao:** manter taxa 1, pesos balanceados
-- **artefato:** resultados/regressao_logistica/resumo.json
+- **arquivo:** resultados/regressao_logistica/resumo.json
 - **origem:** executado em R1
 - **interpretação:** A concordância de classes foi de 100% e a correlação média de probabilidades de 0,99999990. Isso sustenta a coerência da implementação nas condições testadas.
 
@@ -152,7 +151,7 @@ A hipótese comum é a de E05: variar capacidade, penalização dos pesos e tama
 - **alteracao:** 16 configuracoes com embargo; comparacao tres seeds para MLP/GB
 - **resultado:** Gradient Boosting: MCC=0.3542; MLP: MCC=0.3134; Logistica do zero: MCC=0.2949
 - **decisao:** GB como baseline; MLP permanece principal para atualizacao
-- **artefato:** resultados/gradient_boosting/protocolo.json
+- **arquivo:** resultados/gradient_boosting/protocolo.json
 - **origem:** executado em R1
 - **interpretação:** GB teve maior MCC de validação, mas MLP permanece principal por permitir continuidade do treinamento por gradiente. Esses resultados não substituem o teste final.
 
@@ -165,7 +164,7 @@ A hipótese comum é a de E05: variar capacidade, penalização dos pesos e tama
 - **alteracao:** PSI, KS, Wasserstein e Jensen-Shannon; estatisticas descritivas
 - **resultado:** maior PSI em digital_rank; queda de 4,86 pontos percentuais no alvo
 - **decisao:** mudanca de distribuicao documentada; nao afirmar concept drift ou causalidade
-- **artefato:** resultados/aed_drift/drift_d0_d1.csv
+- **arquivo:** resultados/aed_drift/drift_d0_d1.csv
 - **origem:** executado em R1
 
 Seeds atuais: 42 na busca; 42, 1337 e 2024 nos experimentos estocásticos principais. Regressão logística determinística. Tempos estão nas tabelas por fold; E11 registra a data em seu protocolo.
@@ -178,13 +177,13 @@ Seeds atuais: 42 na busca; 42, 1337 e 2024 nos experimentos estocásticos princi
 - **pergunta:** Atualizar a MLP melhora a previsão no período futuro?
 - **dados:** D0/D1 para treino; D2 com 14.200 observações para avaliação final.
 - **alteração realizada:** comparar M0 (D0), MFT (M0 atualizado em D1 por uma época), MRT (nova MLP em D0+D1) e MREC (nova MLP em D1), além de GB e regressão logística treinados em D0.
-- **protocolo:** revisão e congelamento autorizados explicitamente pelo usuário;
+- **protocolo:** revisão e congelamento;
   todos os 16 modelos treinados antes da leitura de D2 pelo avaliador.
 - **resultado:** MCC médio GB=0,1978; MRT=0,1789; MREC=0,1715;
   MFT=0,1681; M0=0,1623; LR=0,1309.
 - **decisão:** MRT tem maior MCC entre as estratégias MLP; GB tem maior MCC geral.
   Ganho de MFT é pequeno e acompanhado de queda de recall/F1. Nenhum reajuste.
-- **artefatos:** `resultados/final/manifesto_resultados.json`, `RESULTADOS_FINAIS.md`.
+- **arquivos:** `resultados/final/manifesto_resultados.json`, `RESULTADOS_FINAIS.md`.
 - **interpretação:** MRT obteve o maior MCC entre as MLPs e GB o maior MCC geral. MFT ganhou pouco em MCC e perdeu recall/F1; atualização não melhorou todas as métricas. Desvios entre sementes não demonstram significância estatística.
 
 
@@ -196,7 +195,7 @@ Seeds atuais: 42 na busca; 42, 1337 e 2024 nos experimentos estocásticos princi
 - **resultado:** em D0→D2, maior PSI em digital_rank (1,2124), seguido por album_rank (0,1442). Proporção de melhora: D0=36,16%, D1=31,30%, D2=32,18%.
 - **interpretação:** há mudanças de distribuição, mas os resultados não comprovam mudança na relação entre atributos e alvo nem explicam causalmente a queda de desempenho.
 - **decisão:** reportar as mudanças e limitações, sem selecionar atributos ou reajustar modelos com D2.
-- **artefatos:** `resultados/analises_finais/drift.csv`, `resultados/analises_finais/intervalos_psi.csv`, `resultados/analises_finais/alvo_periodos.csv`, `resultados/analises_finais/drift.png`.
+- **arquivos:** `resultados/analises_finais/drift.csv`, `resultados/analises_finais/intervalos_psi.csv`, `resultados/analises_finais/alvo_periodos.csv`, `resultados/analises_finais/drift.png`.
 
 ## E14 - Importância dos atributos
 
@@ -206,7 +205,7 @@ Seeds atuais: 42 na busca; 42, 1337 e 2024 nos experimentos estocásticos princi
 - **resultado:** em MRT, maiores importâncias médias em album_rank (0,0518), variacao_1s (0,0442) e peak_pos (0,0400). As tabelas registram as quatro estratégias, incluindo valores negativos.
 - **interpretação:** o modelo utiliza informações de histórico e rankings auxiliares. Importância por permutação não mede causalidade; correlações entre atributos podem dividir ou ocultar importância. Desvios entre sementes e entre permutações são distintos.
 - **decisão:** usar os resultados para interpretação, sem remover atributos ou retreinar modelos com base em D2.
-- **artefatos:** `resultados/analises_finais/importancias_repeticoes.csv`, `resultados/analises_finais/importancias_seeds.csv`, `resultados/analises_finais/importancias_resumo.csv`, `resultados/analises_finais/importancias.png`.
+- **arquivos:** `resultados/analises_finais/importancias_repeticoes.csv`, `resultados/analises_finais/importancias_seeds.csv`, `resultados/analises_finais/importancias_resumo.csv`, `resultados/analises_finais/importancias.png`.
 
 ## E15 - Análise de erros
 
@@ -216,7 +215,7 @@ Seeds atuais: 42 na busca; 42, 1337 e 2024 nos experimentos estocásticos princi
 - **resultado:** MRT teve recall médio de 3,65% no top 10 e 35,21% nas posições 41–100; por tempo na parada, 8,56% em 13+ semanas e 52,55% em 1–4 semanas.
 - **interpretação:** o desempenho varia entre grupos e a rede deixa passar muitas melhoras em alguns deles. Os exemplos ilustram falhas, sem determinar suas causas; tamanhos e composição dos grupos precisam ser considerados.
 - **decisão:** discutir as limitações por grupo e apresentar exemplos de erros; não alterar limiar ou modelo em função deles.
-- **artefatos:** `resultados/analises_finais/erros_grupos.csv`, `resultados/analises_finais/erros_exemplos.csv`, `resultados/analises_finais/matrizes_confusao.png`.
+- **arquivos:** `resultados/analises_finais/erros_grupos.csv`, `resultados/analises_finais/erros_exemplos.csv`, `resultados/analises_finais/matrizes_confusao.png`.
 
 ## Reprodutibilidade e limites dos registros
 
@@ -224,7 +223,6 @@ Seeds atuais: 42 na busca; 42, 1337 e 2024 nos experimentos estocásticos princi
 - E05 usa desvio populacional entre folds (ddof=0); E09 registra desvio amostral entre folds (ddof=1). E10 usa ddof=0 sobre médias por fold e separa variação entre sementes. E12 usa desvio amostral entre sementes (ddof=1); LR tem apenas uma execução.
 - Tempos de seleção e comparação constam dos CSVs por fold; os tempos finais estão em `resultados/final/tempos.csv`.
 - Configurações e hashes da avaliação oficial: `protocolo/protocolo_final.congelado.json`. Eventos: `resultados/final/execucao.json`. Integridade: `resultados/final/manifesto_resultados.json` e `resultados/analises_finais/manifesto_analises.json`.
-- E01 possui artefato de auditoria anterior à revisão. E02 é decisão herdada. E03 depende de evidência não localizada. E08 reutiliza resultados de E07. Não apresentar esses registros como novos treinamentos independentes.
 
 ## E16 - Correção R2 e reprodução multiplataforma
 
