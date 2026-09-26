@@ -57,7 +57,7 @@ Os IDs históricos foram preservados para permitir relacionar o diário aos arte
 - **interpretação:** A proporção caiu de 36,16% para 31,30%, cerca de 4,86 pontos percentuais; acurácia isolada não basta para avaliar as classes.
 
 
-## E05-R1
+## E05 - R1
 
 - **hipótese investigada:** Arquitetura, regularização e taxa de aprendizado podem alterar a generalização temporal da MLP.
 - **pergunta:** Qual MLP generaliza melhor nos folds corrigidos?
@@ -91,7 +91,7 @@ A hipótese comum é a de E05: variar capacidade, penalização dos pesos e tama
 | E05-C11 | 64/32 | 0.001 | 0.003 | 0.277932 | 0.026527 | Não selecionada: MCC médio menor |
 | E05-C12 | 64/32 | 0.0001 | 0.003 | 0.272272 | 0.034957 | Não selecionada: MCC médio menor |
 
-## E06-R1
+## E06 - R1
 
 - **hipótese investigada:** O teto de 100 épocas pode interromper o treino antes do critério de convergência.
 - **pergunta:** 100 epocas truncam o treinamento?
@@ -104,7 +104,7 @@ A hipótese comum é a de E05: variar capacidade, penalização dos pesos e tama
 - **interpretação:** O teto de 800 eliminou os avisos nas 12 combinações fold/semente verificadas, sem obrigar 800 épocas. Convergência numérica não garante generalização.
 
 
-## E07-R1
+## E07 - R1
 
 - **hipótese investigada:** Continuar o treinamento com dados recentes pode melhorar M0; taxa, regularização e duração podem mudar o ganho.
 - **pergunta:** Como atualizar a MLP revisada?
@@ -117,7 +117,7 @@ A hipótese comum é a de E05: variar capacidade, penalização dos pesos e tama
 - **interpretação:** B por uma época teve maior MCC médio em D1b entre as configurações avaliadas. É resultado de seleção em D1b, não evidência independente de melhora em D2.
 
 
-## E08-R1
+## E08 - R1
 
 - **hipótese investigada:** Regularização forte durante a atualização pode reduzir sobreajuste aos dados recentes.
 - **pergunta:** L2 forte melhora a atualizacao?
@@ -171,7 +171,7 @@ Seeds atuais: 42 na busca; 42, 1337 e 2024 nos experimentos estocásticos princi
 - **interpretação:** As medidas documentam mudança de distribuição, mas não identificam por si sós concept drift ou causalidade.
 
 
-## E12 — Avaliação real
+## E12 - Avaliação real
 
 - **hipótese investigada:** Atualizar M0, retreinar com D0+D1 ou usar apenas D1 pode melhorar a generalização futura, com custos diferentes.
 - **pergunta:** Atualizar a MLP melhora a previsão no período futuro?
