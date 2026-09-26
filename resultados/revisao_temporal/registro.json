@@ -1,0 +1,97 @@
+{
+  "data_utc": "2026-09-25T21:09:46.609486+00:00",
+  "embargo_dias": 7,
+  "convergencia": {
+    "dados": "D0",
+    "embargo_dias": 7,
+    "hp": {
+      "hidden_layer_sizes": [
+        32
+      ],
+      "alpha": 0.01,
+      "learning_rate_init": 0.003,
+      "max_iter": 800,
+      "mcc_validacao_d0": 0.32127737803036627,
+      "mcc_desvio_d0": 0.06488396493474491,
+      "folds": 4,
+      "seed_busca": 42,
+      "embargo_dias": 7,
+      "convergiu_por_fold": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "iteracoes_por_fold": [
+        144,
+        107,
+        72,
+        84
+      ]
+    },
+    "seeds": [
+      42,
+      1337,
+      2024
+    ],
+    "convergencia_em_todos": true,
+    "maior_numero_epocas": 171,
+    "criterio": "ausencia de ConvergenceWarning; parada pela perda de treino",
+    "observacao": "Convergencia numerica nao garante generalizacao nem otimo global."
+  },
+  "finetuning": {
+    "config": "B_lr_original",
+    "learning_rate_init": 0.003,
+    "alpha": 0.01,
+    "epocas": 1,
+    "mcc_d1b": 0.212,
+    "ganho_vs_m0_d1b": 0.0218,
+    "fracao_d1a": 0.75,
+    "seeds": [
+      42,
+      1337,
+      2024
+    ],
+    "hiperparametros_m0": {
+      "hidden_layer_sizes": [
+        32
+      ],
+      "alpha": 0.01,
+      "learning_rate_init": 0.003,
+      "max_iter": 800,
+      "mcc_validacao_d0": 0.32127737803036627,
+      "mcc_desvio_d0": 0.06488396493474491,
+      "folds": 4,
+      "seed_busca": 42,
+      "embargo_dias": 7,
+      "convergiu_por_fold": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "iteracoes_por_fold": [
+        144,
+        107,
+        72,
+        84
+      ]
+    },
+    "embargo_d1_dias": 7,
+    "configuracoes_testadas": {
+      "A_lr_baixo": {
+        "learning_rate_init": 0.00030000000000000003,
+        "alpha": 0.01
+      },
+      "B_lr_original": {
+        "learning_rate_init": 0.003,
+        "alpha": 0.01
+      },
+      "C_lr_baixo_reg_forte": {
+        "learning_rate_init": 0.00030000000000000003,
+        "alpha": 1.0
+      }
+    }
+  },
+  "d2_avaliado": false
+}

@@ -39,6 +39,7 @@ from sklearn.metrics import (
 )
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
+from threadpoolctl import threadpool_limits
 
 from construir_base import ALVO, FEATURES, SEMANA
 
@@ -59,11 +60,13 @@ EPOCAS_MAX = 30
 #      penalidade comparavel ao gradiente dos dados (E08).
 # Congelamento de camadas nao entra: a MLP tem uma camada oculta so, e o
 # MLPClassifier do scikit-learn nao oferece congelamento.
-CONFIGS_FT = {
-    "A_lr_baixo": {"learning_rate_init": 3e-4, "alpha": 1e-4},
-    "B_lr_original": {"learning_rate_init": 3e-3, "alpha": 1e-4},
-    "C_lr_baixo_reg_forte": {"learning_rate_init": 3e-4, "alpha": 1.0},
-}
+def configuracoes_ft(hp):
+    """Mantem as tres hipoteses relativas a M0 apos a nova selecao em D0."""
+    return {
+        'A_lr_baixo': dict(learning_rate_init=hp['learning_rate_init'] / 10, alpha=hp['alpha']),
+        'B_lr_original': dict(learning_rate_init=hp['learning_rate_init'], alpha=hp['alpha']),
+        'C_lr_baixo_reg_forte': dict(learning_rate_init=hp['learning_rate_init'] / 10, alpha=1.0),
+    }
 
 
 def metricas(y: np.ndarray, prob: np.ndarray, limiar: float = 0.5) -> dict:
@@ -89,9 +92,12 @@ def treinar_do_zero(X: np.ndarray, y: np.ndarray, hp: dict, seed: int) -> MLPCla
         max_iter=hp["max_iter"],
         random_state=seed,
     )
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", ConvergenceWarning)
+    with warnings.catch_warnings(record=True) as avisos:
+        warnings.simplefilter("always", ConvergenceWarning)
         modelo.fit(X, y)
+    modelo.convergiu_ = not any(issubclass(a.category, ConvergenceWarning) for a in avisos)
+    if not modelo.convergiu_:
+        raise RuntimeError(f'M0 seed {seed} nao convergiu; revisar em D0 antes de usar D1.')
     return modelo
 
 
@@ -161,6 +167,7 @@ def main() -> None:
     args = p.parse_args()
 
     hp = json.loads((args.modelos / "hiperparametros.json").read_text())
+    configs_ft = configuracoes_ft(hp)
     d0 = pd.read_csv(args.dados / "base_d0.csv", parse_dates=["date"])
     d1 = pd.read_csv(args.dados / "base_d1.csv", parse_dates=["date"])
     d1a, d1b = dividir_d1(d1)
@@ -197,7 +204,7 @@ def main() -> None:
 
         mcc_m0_d1b = matthews_corrcoef(y1b, m0.predict(X1b))
 
-        for nome_cfg, config in CONFIGS_FT.items():
+        for nome_cfg, config in configs_ft.items():
             modelo = preparar_finetuning(m0, config)
 
             # Checagem: antes de qualquer epoca, a copia preve igual a M0.
@@ -247,7 +254,7 @@ def main() -> None:
     print(f"  M0 sem fine-tuning (epoca 0): {base:.4f}\n")
 
     melhores = []
-    for nome_cfg in CONFIGS_FT:
+    for nome_cfg in configs_ft:
         c = media[media["config"] == nome_cfg]
         linha = c.loc[c["mean"].idxmax()]
         final = c[c["epoca"] == EPOCAS_MAX].iloc[0]
@@ -269,12 +276,15 @@ def main() -> None:
 
     escolhido = {
         "config": vencedor["config"],
-        **CONFIGS_FT[vencedor["config"]],
+        **configs_ft[vencedor["config"]],
         "epocas": vencedor["epocas"],
         "mcc_d1b": round(vencedor["mcc_d1b"], 4),
         "ganho_vs_m0_d1b": round(vencedor["mcc_d1b"] - base, 4),
         "fracao_d1a": FRACAO_D1A,
         "seeds": SEEDS,
+        "hiperparametros_m0": hp,
+        "embargo_d1_dias": 7,
+        "configuracoes_testadas": configs_ft,
     }
     (args.modelos / "finetuning_escolhido.json").write_text(
         json.dumps(escolhido, indent=2) + "\n")
@@ -285,4 +295,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    with threadpool_limits(limits=1):
+        main()

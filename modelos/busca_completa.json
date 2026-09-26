@@ -4,36 +4,30 @@
       "hidden_layer_sizes": [
         32
       ],
-      "alpha": 0.0001,
+      "alpha": 0.01,
       "learning_rate_init": 0.003
     },
-    "mcc_medio": 0.3205225528889924,
-    "mcc_desvio": 0.06200406464274823,
+    "mcc_medio": 0.32127737803036627,
+    "mcc_desvio": 0.06488396493474491,
     "mcc_por_fold": [
-      0.4091,
-      0.3473,
-      0.2721,
-      0.2536
+      0.4152,
+      0.3437,
+      0.2822,
+      0.244
     ],
-    "tempo_medio_s": 3.8
-  },
-  {
-    "params": {
-      "hidden_layer_sizes": [
-        32
-      ],
-      "alpha": 0.001,
-      "learning_rate_init": 0.003
-    },
-    "mcc_medio": 0.32021284561042324,
-    "mcc_desvio": 0.059072395960704495,
-    "mcc_por_fold": [
-      0.4065,
-      0.3421,
-      0.2752,
-      0.257
+    "tempo_medio_s": 2.3,
+    "iteracoes_por_fold": [
+      144,
+      107,
+      72,
+      84
     ],
-    "tempo_medio_s": 4.5
+    "convergiu_por_fold": [
+      true,
+      true,
+      true,
+      true
+    ]
   },
   {
     "params": {
@@ -43,145 +37,209 @@
       "alpha": 0.01,
       "learning_rate_init": 0.001
     },
-    "mcc_medio": 0.3181133199919163,
-    "mcc_desvio": 0.06137715665302773,
+    "mcc_medio": 0.3207353165083482,
+    "mcc_desvio": 0.06340406947795975,
     "mcc_por_fold": [
-      0.4094,
-      0.3385,
-      0.2682,
-      0.2562
-    ],
-    "tempo_medio_s": 5.4
-  },
-  {
-    "params": {
-      "hidden_layer_sizes": [
-        64,
-        32
-      ],
-      "alpha": 0.01,
-      "learning_rate_init": 0.001
-    },
-    "mcc_medio": 0.3168395249090739,
-    "mcc_desvio": 0.05519116263589715,
-    "mcc_por_fold": [
-      0.3961,
-      0.3387,
-      0.2788,
-      0.2538
-    ],
-    "tempo_medio_s": 8.6
-  },
-  {
-    "params": {
-      "hidden_layer_sizes": [
-        64,
-        32
-      ],
-      "alpha": 0.0001,
-      "learning_rate_init": 0.001
-    },
-    "mcc_medio": 0.316042301669586,
-    "mcc_desvio": 0.05231364591854154,
-    "mcc_por_fold": [
-      0.391,
-      0.3382,
-      0.2748,
-      0.2601
-    ],
-    "tempo_medio_s": 9.7
-  },
-  {
-    "params": {
-      "hidden_layer_sizes": [
-        32
-      ],
-      "alpha": 0.0001,
-      "learning_rate_init": 0.001
-    },
-    "mcc_medio": 0.3157359977308421,
-    "mcc_desvio": 0.06101254441240989,
-    "mcc_por_fold": [
-      0.4052,
-      0.3384,
-      0.267,
-      0.2525
-    ],
-    "tempo_medio_s": 4.4
-  },
-  {
-    "params": {
-      "hidden_layer_sizes": [
-        32
-      ],
-      "alpha": 0.01,
-      "learning_rate_init": 0.003
-    },
-    "mcc_medio": 0.31564181116454787,
-    "mcc_desvio": 0.06417492653063431,
-    "mcc_por_fold": [
-      0.4114,
-      0.3365,
-      0.2628,
-      0.2519
-    ],
-    "tempo_medio_s": 4.6
-  },
-  {
-    "params": {
-      "hidden_layer_sizes": [
-        32
-      ],
-      "alpha": 0.001,
-      "learning_rate_init": 0.001
-    },
-    "mcc_medio": 0.3137033839114689,
-    "mcc_desvio": 0.06194980128403492,
-    "mcc_por_fold": [
-      0.4043,
-      0.3364,
-      0.2671,
-      0.247
-    ],
-    "tempo_medio_s": 5.3
-  },
-  {
-    "params": {
-      "hidden_layer_sizes": [
-        64,
-        32
-      ],
-      "alpha": 0.001,
-      "learning_rate_init": 0.001
-    },
-    "mcc_medio": 0.3136297813249019,
-    "mcc_desvio": 0.054622170851538414,
-    "mcc_por_fold": [
-      0.3951,
-      0.3312,
-      0.2707,
-      0.2575
-    ],
-    "tempo_medio_s": 9.1
-  },
-  {
-    "params": {
-      "hidden_layer_sizes": [
-        64,
-        32
-      ],
-      "alpha": 0.01,
-      "learning_rate_init": 0.003
-    },
-    "mcc_medio": 0.29912171036567364,
-    "mcc_desvio": 0.04403373034373951,
-    "mcc_por_fold": [
-      0.3553,
-      0.3288,
-      0.2604,
+      0.4144,
+      0.342,
+      0.2746,
       0.252
     ],
-    "tempo_medio_s": 8.6
+    "tempo_medio_s": 8.9,
+    "iteracoes_por_fold": [
+      299,
+      217,
+      133,
+      125
+    ],
+    "convergiu_por_fold": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        32
+      ],
+      "alpha": 0.001,
+      "learning_rate_init": 0.003
+    },
+    "mcc_medio": 0.3197192327931934,
+    "mcc_desvio": 0.06512456206693457,
+    "mcc_por_fold": [
+      0.4156,
+      0.3419,
+      0.2731,
+      0.2483
+    ],
+    "tempo_medio_s": 7.3,
+    "iteracoes_por_fold": [
+      144,
+      146,
+      111,
+      84
+    ],
+    "convergiu_por_fold": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        32
+      ],
+      "alpha": 0.001,
+      "learning_rate_init": 0.001
+    },
+    "mcc_medio": 0.31936661843353387,
+    "mcc_desvio": 0.06397603364939278,
+    "mcc_por_fold": [
+      0.4096,
+      0.3479,
+      0.2734,
+      0.2466
+    ],
+    "tempo_medio_s": 10.5,
+    "iteracoes_por_fold": [
+      299,
+      202,
+      133,
+      125
+    ],
+    "convergiu_por_fold": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        32
+      ],
+      "alpha": 0.0001,
+      "learning_rate_init": 0.003
+    },
+    "mcc_medio": 0.31542780746716165,
+    "mcc_desvio": 0.0623611158818587,
+    "mcc_por_fold": [
+      0.4035,
+      0.3441,
+      0.2659,
+      0.2482
+    ],
+    "tempo_medio_s": 6.9,
+    "iteracoes_por_fold": [
+      171,
+      107,
+      111,
+      84
+    ],
+    "convergiu_por_fold": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        32
+      ],
+      "alpha": 0.0001,
+      "learning_rate_init": 0.001
+    },
+    "mcc_medio": 0.31516109564758366,
+    "mcc_desvio": 0.06333915422295572,
+    "mcc_por_fold": [
+      0.4079,
+      0.3386,
+      0.2654,
+      0.2487
+    ],
+    "tempo_medio_s": 10.7,
+    "iteracoes_por_fold": [
+      299,
+      282,
+      146,
+      125
+    ],
+    "convergiu_por_fold": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        64,
+        32
+      ],
+      "alpha": 0.01,
+      "learning_rate_init": 0.001
+    },
+    "mcc_medio": 0.29376819497963225,
+    "mcc_desvio": 0.04662189977963379,
+    "mcc_por_fold": [
+      0.3442,
+      0.3356,
+      0.256,
+      0.2392
+    ],
+    "tempo_medio_s": 31.3,
+    "iteracoes_por_fold": [
+      372,
+      272,
+      320,
+      245
+    ],
+    "convergiu_por_fold": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        64,
+        32
+      ],
+      "alpha": 0.001,
+      "learning_rate_init": 0.001
+    },
+    "mcc_medio": 0.2913675372467045,
+    "mcc_desvio": 0.04021681038063938,
+    "mcc_por_fold": [
+      0.3391,
+      0.3228,
+      0.2579,
+      0.2457
+    ],
+    "tempo_medio_s": 47.2,
+    "iteracoes_por_fold": [
+      328,
+      377,
+      307,
+      245
+    ],
+    "convergiu_por_fold": [
+      true,
+      true,
+      true,
+      true
+    ]
   },
   {
     "params": {
@@ -190,17 +248,60 @@
         32
       ],
       "alpha": 0.0001,
+      "learning_rate_init": 0.001
+    },
+    "mcc_medio": 0.29116230615551375,
+    "mcc_desvio": 0.04095645085037301,
+    "mcc_por_fold": [
+      0.3407,
+      0.3225,
+      0.2514,
+      0.2501
+    ],
+    "tempo_medio_s": 30.7,
+    "iteracoes_por_fold": [
+      385,
+      377,
+      307,
+      247
+    ],
+    "convergiu_por_fold": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        64,
+        32
+      ],
+      "alpha": 0.01,
       "learning_rate_init": 0.003
     },
-    "mcc_medio": 0.29891360654992327,
-    "mcc_desvio": 0.04379017323320242,
+    "mcc_medio": 0.28684699967011723,
+    "mcc_desvio": 0.03812990843425435,
     "mcc_por_fold": [
-      0.3569,
-      0.3256,
-      0.2594,
-      0.2538
+      0.3231,
+      0.3268,
+      0.2509,
+      0.2466
     ],
-    "tempo_medio_s": 9.4
+    "tempo_medio_s": 43.4,
+    "iteracoes_por_fold": [
+      201,
+      269,
+      129,
+      235
+    ],
+    "convergiu_por_fold": [
+      true,
+      true,
+      true,
+      true
+    ]
   },
   {
     "params": {
@@ -211,14 +312,57 @@
       "alpha": 0.001,
       "learning_rate_init": 0.003
     },
-    "mcc_medio": 0.29511096657462377,
-    "mcc_desvio": 0.04542103111943131,
+    "mcc_medio": 0.2779320518527451,
+    "mcc_desvio": 0.026527415680361027,
     "mcc_por_fold": [
-      0.3516,
-      0.3279,
-      0.249,
-      0.252
+      0.316,
+      0.2887,
+      0.2589,
+      0.2481
     ],
-    "tempo_medio_s": 9.9
+    "tempo_medio_s": 38.5,
+    "iteracoes_por_fold": [
+      294,
+      267,
+      160,
+      220
+    ],
+    "convergiu_por_fold": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  {
+    "params": {
+      "hidden_layer_sizes": [
+        64,
+        32
+      ],
+      "alpha": 0.0001,
+      "learning_rate_init": 0.003
+    },
+    "mcc_medio": 0.27227187936685615,
+    "mcc_desvio": 0.03495705656401999,
+    "mcc_por_fold": [
+      0.3031,
+      0.3108,
+      0.2422,
+      0.233
+    ],
+    "tempo_medio_s": 40.4,
+    "iteracoes_por_fold": [
+      294,
+      267,
+      301,
+      233
+    ],
+    "convergiu_por_fold": [
+      true,
+      true,
+      true,
+      true
+    ]
   }
 ]

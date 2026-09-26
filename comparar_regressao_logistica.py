@@ -27,6 +27,7 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 from sklearn.preprocessing import StandardScaler
+from threadpoolctl import threadpool_limits
 
 from ajustar_mlp import folds_temporais
 from construir_base import ALVO, FEATURES
@@ -273,6 +274,7 @@ def resumir(
             "linhas": int(len(d0)),
             "semanas": int(d0["date"].nunique()),
             "folds_temporais": n_folds,
+            "embargo_dias": 7,
             "metrica_de_selecao": "MCC",
             "limiar_classificacao": 0.5,
             "estocastico": False,
@@ -350,6 +352,20 @@ def main() -> None:
         json.dumps(resumo, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
+    proprio = resumo['comparacao']['NumPy (do zero)']
+    coerencia = resumo['coerencia_entre_implementacoes']
+    (args.saida / 'RELATORIO.md').write_text(
+        '# E09-R1 — Regressao logistica com embargo\n\n'
+        'Reexecucao da grade original em D0, quatro folds expansivos com '
+        'embargo de sete dias. Padronizacao ajustada somente no treino.\n\n'
+        f"Configuracao: `{json.dumps(vencedor)}`.\n\n"
+        f"MCC: {proprio['mcc']['media']:.4f}; desvio amostral entre folds: "
+        f"{proprio['mcc']['desvio']:.4f}.\n\n"
+        f"Concordancia de classes com scikit-learn: {coerencia['concordancia_classes_media']:.6f}; "
+        f"correlacao de probabilidades: {coerencia['correlacao_probabilidades_media']:.8f}.\n\n"
+        'Decisao: usar esta configuracao na comparacao corrigida. Resultados antigos '
+        'preservados em resultados/historico_sem_embargo/. D1 e D2 nao utilizados.\n',
+        encoding='utf-8')
 
     print("\nComparacao media nos folds temporais:")
     for nome, valores in resumo["comparacao"].items():
@@ -369,4 +385,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    with threadpool_limits(limits=1):
+        main()

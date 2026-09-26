@@ -17,18 +17,22 @@ Os dados são separados cronologicamente:
 |---|---|---:|---|
 | D0 | 02/01/2013–10/03/2021 | 42.800 | Treinamento histórico e ajuste de hiperparâmetros |
 | D1 | 24/03/2021–06/12/2023 | 14.200 | Avaliação recente e escolha do fine-tuning |
-| D2 | 20/12/2023–02/09/2026 | 14.200 | Teste final, ainda congelado |
+| D2 | 20/12/2023–02/09/2026 | 14.200 | Teste final avaliado após congelamento do protocolo |
 
 As semanas imediatamente anteriores a D1 e D2 são removidas por embargo, pois
-seus alvos dependem da primeira semana do bloco seguinte.
+seus alvos dependem da primeira semana do bloco seguinte. O mesmo embargo
+de sete dias agora é aplicado dentro dos quatro folds de D0: exigimos
+`data_treino + 7 dias < início_validação`.
 
 > **Regra experimental:** não use D2 para escolher atributos, hiperparâmetros,
-> limiar de classificação ou qualquer outra decisão. D2 só deve ser aberto pelo
-> futuro script de avaliação final depois que o protocolo estiver congelado.
+> limiar de classificação ou qualquer outra decisão. A avaliação oficial de D2
+> ocorreu após o congelamento do protocolo.
 
 ## Ambiente
 
-O ambiente foi testado com Python 3.14.4 em Linux. Na raiz do repositório:
+O ambiente original foi testado com Python 3.14.4 em Linux. A revisão R1 foi
+executada com Python 3.12 em Windows; versões exatas estão no protocolo E10.
+Na raiz do repositório:
 
 ```bash
 python3 -m venv .venv
@@ -47,8 +51,7 @@ python -m pip install -r requirements.txt
 ```
 
 As versões das dependências diretas estão fixadas em `requirements.txt`. O
-ambiente inclui JupyterLab para os notebooks que serão adicionados nas próximas
-etapas:
+ambiente inclui JupyterLab para os notebooks em `notebooks/`:
 
 ```bash
 jupyter lab
@@ -89,6 +92,16 @@ D0+D1 e grava resultados em `resultados/auditoria_integridade/`.
 
 ### 2. Construção de D0, D1 e D2
 
+Durante o desenvolvimento, reconstrua somente D0/D1, conferindo os hashes já
+registrados e preservando o manifesto:
+
+```bash
+python preparar_desenvolvimento.py
+```
+
+O construtor original continua disponível para gerar os três blocos quando
+necessário. Gerar D2 não autoriza analisá-lo antes do congelamento:
+
 ```bash
 python construir_base.py
 ```
@@ -106,8 +119,11 @@ python diagnostico_convergencia.py
 
 `ajustar_mlp.py` abre somente D0 e usa quatro folds cronológicos. O scaler é
 reajustado dentro de cada fold. Os hiperparâmetros escolhidos são gravados em
-`modelos/hiperparametros.json`; o diagnóstico confirma que 100 épocas são um
-limite suficiente.
+`modelos/hiperparametros.json`. A busca mantém as 12 configurações originais,
+com embargo e teto de 800 épocas. A parada automática depende da perda de
+treino, sem validação aleatória interna. O diagnóstico compara tetos 100/800
+nos quatro folds e três seeds: todos os 12 ajustes revisados convergiram,
+com máximo observado de 171 épocas. Convergência não garante melhor MCC.
 
 ### 4. Escolha do fine-tuning
 
@@ -117,7 +133,9 @@ python selecionar_finetuning.py
 
 Esse comando abre somente D0 e D1. Ele treina M0 em três seeds (`42`, `1337` e
 `2024`), divide D1 cronologicamente em D1a/D1b e compara três configurações de
-fine-tuning. A escolha atual é a configuração `B_lr_original`, com 11 épocas.
+fine-tuning. As taxas/regularizações A e B acompanham a MLP escolhida em D0.
+A escolha revisada é `B_lr_original`, com **uma época** e `alpha=0,01`.
+As 11 épocas anteriores pertencem ao histórico substituído.
 
 ### 5. Regressão logística implementada do zero
 
@@ -132,10 +150,104 @@ segundo abre somente D0, escolhe a configuração própria em quatro folds
 temporais e a compara com `sklearn.linear_model.LogisticRegression`. Os
 resultados são gravados em `resultados/regressao_logistica/`.
 
-### 6. Avaliação final
+### 6. Gradient Boosting e comparação das três famílias (E10)
 
-Ainda não implementada. Ela deverá treinar M0, MFT, MRT e MREC com o protocolo
-já congelado e somente então avaliar os quatro modelos em D2.
+```bash
+python -m unittest -v test_gradient_boosting.py
+python avaliar_gradient_boosting.py
+```
+
+O script confere o hash de D0 no manifesto e reutiliza exatamente os quatro
+folds compartilhados, com embargo. Testa 16 configurações de `HistGradientBoostingClassifier`
+com seed 42 e seleciona pelo maior MCC médio. O early stopping fica desativado
+para evitar uma separação aleatória interna. Árvores não usam padronização.
+
+A configuração escolhida e a MLP são comparadas com seeds 42, 1337 e 2024;
+a regressão logística do zero, determinística, é executada uma vez por fold.
+As configurações já escolhidas das duas famílias anteriores são reavaliadas
+no mesmo ambiente, sem nova busca. São registradas métricas de validação,
+MCC de treino, tempos e variação entre folds e entre seeds separadamente.
+PR-AUC corresponde a average precision. O desvio entre folds usa `ddof=0`.
+
+Resultados e diário E10: `resultados/gradient_boosting/RELATORIO.md`.
+A pasta também contém a busca completa, comparação por fold e por família,
+configuração selecionada e protocolo com hash, ambiente, grade e sementes.
+D1 e D2 não são carregados. A MLP continua sendo o modelo principal.
+
+**Correção R1:** o embargo agora impede que alvos de treino alcancem a
+validação. As três buscas foram refeitas. Os resultados antigos sem embargo
+foram excluídos desta cópia do projeto; não são os resultados atuais.
+A validação usada para seleção continua não sendo teste independente.
+
+### 7. Análise exploratória, drift, diário e notebooks
+
+```bash
+python analisar_dados_drift.py
+python -m unittest -v test_regressao_logistica_zero.py test_gradient_boosting.py test_protocolo_drift.py
+```
+
+O notebook 01 chama o script de AED/drift e gera tabelas e seis figuras. O 02
+apresenta os experimentos já executados pelos scripts, sem repetir buscas
+demoradas. Os notebooks já estão salvos com suas saídas. Para executá-los,
+ative o ambiente do projeto, rode `jupyter lab`, abra o notebook e escolha
+“Executar todas as células”. Salve o notebook após a execução.
+
+PSI usa quantis de D0; KS e Wasserstein comparam atributos numéricos;
+Jensen–Shannon compara categorias e alvo. As medidas são descritivas: não
+usamos p-valores iid, pois há dependência temporal e repetição de músicas.
+Mudança de distribuição não demonstra concept drift nem causalidade.
+
+Veja `DIARIO_EXPERIMENTOS.md` e `resultados/revisao_temporal/RELATORIO.md`.
+O diário identifica os registros herdados cujo artefato bruto ainda falta,
+sem contá-los como novas execuções. O plano recebido, anterior às correções,
+não está incluído nesta cópia do projeto.
+
+### 8. Protocolo e avaliação final
+
+```bash
+python preparar_protocolo_final.py
+```
+
+Esse comando cria `protocolo/protocolo_final.rascunho.json` e seu SHA-256,
+sem abrir D2. O rascunho precisa da revisão da equipe e do congelamento
+formal, conforme a etapa 13 do plano, antes de qualquer avaliação futura.
+
+A implementação e a avaliação real foram concluídas em 26/09/2026, após revisão
+e congelamento autorizados pelo usuário. Veja `RESULTADOS_FINAIS.md`.
+Os comandos abaixo documentam a sequência usada; os destinos existentes
+são protegidos contra sobrescrita:
+
+```bash
+python protocolo_final.py --responsavel "Nome de quem revisou" --confirmar-revisao
+python construir_base.py
+python experimento_final.py
+python analisar_resultados_finais.py
+```
+
+`construir_base.py` materializa também o CSV de D2. O experimento treina os
+16 modelos (quatro estratégias MLP e GB em três seeds, mais uma regressão
+determinística), salva seus estados e somente então carrega D2 para avaliação.
+As métricas, previsões, tempos, curvas e hashes ficam em `resultados/final/`.
+Drift entre os três períodos, importância por permutação e erros por grupos
+ficam em `resultados/analises_finais/`. Nenhuma análise reajusta modelos.
+
+O congelamento verifica versões e hashes do código, configurações e dados.
+Se código ou ambiente mudarem, a execução é bloqueada. Antes de congelar,
+regenere o rascunho quando houver alterações. As pastas de saída não são
+sobrescritas: uma falha preserva os artefatos e seu estado em `execucao.json`.
+Se D2 já tiver sido aberto, documente qualquer recuperação como continuação
+da mesma avaliação; não use seus resultados para escolher novos parâmetros.
+
+Os notebooks 03 e 04 apenas apresentam artefatos: sem a execução final,
+mostram a pendência explicitamente. Para atualizar suas saídas, abra-os no
+Jupyter e execute todas as células após gerar os resultados finais.
+Para executar os testes do projeto:
+
+```bash
+python -m unittest discover -v
+```
+
+Os testes finais usam conjuntos sintéticos temporários, sem acessar D2 real.
 
 ## Estrutura atual
 
@@ -151,6 +263,18 @@ já congelado e somente então avaliar os quatro modelos em D2.
 ├── regressao_logistica_zero.py # algoritmo didático em NumPy
 ├── comparar_regressao_logistica.py
 ├── test_regressao_logistica_zero.py
+├── avaliar_gradient_boosting.py # E10: seleção em D0 e três famílias
+├── test_gradient_boosting.py    # protocolo temporal, integridade e métricas
+├── preparar_desenvolvimento.py # reconstrói D0/D1 sem gerar D2
+├── revisar_convergencia.py     # quatro folds e três seeds, tetos 100/800
+├── analisar_dados_drift.py     # AED e drift D0 → D1
+├── preparar_protocolo_final.py # rascunho para revisão
+├── protocolo_final.py         # validação e congelamento explícito
+├── experimento_final.py       # treinamento e avaliação final
+├── analisar_resultados_finais.py # drift, importância e erros
+├── test_experimento_final.py  # integração com dados sintéticos
+├── notebooks/
+├── protocolo/
 ├── dados/
 │   ├── MANIFESTO_FONTE.txt
 │   └── processados/manifesto.txt
@@ -160,19 +284,23 @@ já congelado e somente então avaliar os quatro modelos em D2.
     └── regressao_logistica/
 ```
 
-## Resultados reproduzidos até aqui
+## Resultados revisados (R1)
 
-- configuração da MLP: uma camada de 32 neurônios, `alpha=1e-4`,
-  `learning_rate_init=3e-3` e `max_iter=100`;
-- MCC na validação temporal de D0: `0,3205 ± 0,0620`;
-- MCC médio de M0 em D1: `0,2206`;
-- configuração de fine-tuning escolhida: taxa original durante 11 épocas;
-- MCC médio em D1b após fine-tuning: `0,2116`, ganho de `0,0191` sobre M0;
+- MLP: 32 neurônios, `alpha=0,01`, `learning_rate_init=0,003`, teto de 800 épocas;
+- MCC da busca da MLP (seed 42): `0,3213 ± 0,0649`;
+- comparação em quatro folds, médias entre seeds: GB `0,3542`, MLP `0,3134`,
+  regressão logística `0,2949`; desvios e métricas completas nos CSVs E10;
+- MCC médio de M0 em D1: `0,2152`;
+- fine-tuning: taxa original durante uma época; MCC D1b `0,2120`,
+  ganho de `0,0218` sobre M0 no mesmo D1b;
+- proporção positiva: D0 `36,16%`, D1 `31,30%`; maior PSI em `digital_rank`;
 - zero inconsistências causais de `peak_pos` nas 50.855 continuações de
   passagem auditadas em D0+D1;
-- regressão logística do zero: MCC temporal `0,2945 ± 0,0506` em D0;
-- implementação própria e scikit-learn: 100% de concordância nas classes e
-  correlação `0,9999999` entre probabilidades.
+- regressão própria e scikit-learn: 100% de concordância nas classes.
+
+Os desvios temporais E10 usam `ddof=0` sobre médias por fold; E09 usa
+desvio amostral `ddof=1`. Na tabela final futura, os desvios serão entre seeds.
+Resultados de busca (seed 42) não devem ser confundidos com médias entre seeds.
 
 ## Reprodutibilidade e dados ignorados
 

@@ -1,0 +1,18 @@
+{
+  "experimento": "E11",
+  "data_utc": "2026-09-25T21:07:15.977874+00:00",
+  "hashes": {
+    "D0": "e8b88b32877527751d3489cd8c0a4d0fb5c0949b1f138f0d94e2d2ed0cc06f92",
+    "D1": "d25054052065a52320e66d9c2660891568b262984a7d08d9a458db088cffe636"
+  },
+  "dados": [
+    "D0",
+    "D1"
+  ],
+  "n_bins_psi": 10,
+  "pseudocontagem": 0.5,
+  "referencia_bins": "D0",
+  "js": "divergencia em bits",
+  "p_valores": false,
+  "motivo": "dependencia temporal e repeticao de musicas"
+}

@@ -1,0 +1,179 @@
+{
+  "experimento": "E10",
+  "data_utc": "2026-09-25T20:44:32.105935+00:00",
+  "dados": "somente D0",
+  "sha256_d0": "e8b88b32877527751d3489cd8c0a4d0fb5c0949b1f138f0d94e2d2ed0cc06f92",
+  "features": [
+    "rank",
+    "rank_lag1",
+    "rank_lag2",
+    "variacao_1s",
+    "peak_pos",
+    "distancia_pico",
+    "semanas_na_parada",
+    "hiato_semanas",
+    "estreia",
+    "reentrada",
+    "radio_rank",
+    "radio_presente",
+    "streaming_rank",
+    "streaming_presente",
+    "digital_rank",
+    "digital_presente",
+    "album_rank",
+    "album_presente",
+    "mes",
+    "semana_ano"
+  ],
+  "folds": 4,
+  "embargo_dias": 7,
+  "seed_busca": 42,
+  "seeds_comparacao": [
+    42,
+    1337,
+    2024
+  ],
+  "threads": 1,
+  "limiar": 0.5,
+  "early_stopping": false,
+  "grade": [
+    {
+      "learning_rate": 0.05,
+      "max_iter": 200,
+      "max_leaf_nodes": 15,
+      "l2_regularization": 0.0,
+      "class_weight": null
+    },
+    {
+      "learning_rate": 0.05,
+      "max_iter": 200,
+      "max_leaf_nodes": 15,
+      "l2_regularization": 0.0,
+      "class_weight": "balanced"
+    },
+    {
+      "learning_rate": 0.05,
+      "max_iter": 200,
+      "max_leaf_nodes": 15,
+      "l2_regularization": 1.0,
+      "class_weight": null
+    },
+    {
+      "learning_rate": 0.05,
+      "max_iter": 200,
+      "max_leaf_nodes": 15,
+      "l2_regularization": 1.0,
+      "class_weight": "balanced"
+    },
+    {
+      "learning_rate": 0.05,
+      "max_iter": 200,
+      "max_leaf_nodes": 31,
+      "l2_regularization": 0.0,
+      "class_weight": null
+    },
+    {
+      "learning_rate": 0.05,
+      "max_iter": 200,
+      "max_leaf_nodes": 31,
+      "l2_regularization": 0.0,
+      "class_weight": "balanced"
+    },
+    {
+      "learning_rate": 0.05,
+      "max_iter": 200,
+      "max_leaf_nodes": 31,
+      "l2_regularization": 1.0,
+      "class_weight": null
+    },
+    {
+      "learning_rate": 0.05,
+      "max_iter": 200,
+      "max_leaf_nodes": 31,
+      "l2_regularization": 1.0,
+      "class_weight": "balanced"
+    },
+    {
+      "learning_rate": 0.1,
+      "max_iter": 100,
+      "max_leaf_nodes": 15,
+      "l2_regularization": 0.0,
+      "class_weight": null
+    },
+    {
+      "learning_rate": 0.1,
+      "max_iter": 100,
+      "max_leaf_nodes": 15,
+      "l2_regularization": 0.0,
+      "class_weight": "balanced"
+    },
+    {
+      "learning_rate": 0.1,
+      "max_iter": 100,
+      "max_leaf_nodes": 15,
+      "l2_regularization": 1.0,
+      "class_weight": null
+    },
+    {
+      "learning_rate": 0.1,
+      "max_iter": 100,
+      "max_leaf_nodes": 15,
+      "l2_regularization": 1.0,
+      "class_weight": "balanced"
+    },
+    {
+      "learning_rate": 0.1,
+      "max_iter": 100,
+      "max_leaf_nodes": 31,
+      "l2_regularization": 0.0,
+      "class_weight": null
+    },
+    {
+      "learning_rate": 0.1,
+      "max_iter": 100,
+      "max_leaf_nodes": 31,
+      "l2_regularization": 0.0,
+      "class_weight": "balanced"
+    },
+    {
+      "learning_rate": 0.1,
+      "max_iter": 100,
+      "max_leaf_nodes": 31,
+      "l2_regularization": 1.0,
+      "class_weight": null
+    },
+    {
+      "learning_rate": 0.1,
+      "max_iter": 100,
+      "max_leaf_nodes": 31,
+      "l2_regularization": 1.0,
+      "class_weight": "balanced"
+    }
+  ],
+  "criterio": "maior MCC medio; empate exato: primeira configuracao da grade",
+  "pr_auc": "average_precision_score",
+  "desvio_folds_ddof": 0,
+  "python": "3.12.14",
+  "plataforma": "Windows-11-10.0.26200-SP0",
+  "sklearn": "1.9.1",
+  "numpy": "2.5.3",
+  "pandas": "3.0.6",
+  "tempo_total_s": 187.41349239999545,
+  "configuracoes_baselines": {
+    "mlp": {
+      "hidden_layer_sizes": [
+        32
+      ],
+      "alpha": 0.01,
+      "learning_rate_init": 0.003,
+      "max_iter": 800
+    },
+    "logistica": {
+      "taxa_aprendizado": 1.0,
+      "class_weight": "balanced",
+      "l2": 0.0,
+      "max_iter": 6000,
+      "tolerancia": 1e-11
+    }
+  }
+}

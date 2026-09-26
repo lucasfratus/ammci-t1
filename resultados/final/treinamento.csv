@@ -1,0 +1,17 @@
+modelo,seed,dados_treino,tempo_treino_s,tempo_desde_zero_s,convergiu,avisos,iteracoes,complexidade,tipo_complexidade
+M0,42,D0,5.225202200002968,5.225202200002968,True,,111,705,pesos_e_vieses
+MRT,42,D0+D1,4.791673300002003,4.791673300002003,True,,80,705,pesos_e_vieses
+MREC,42,D1,2.2991542000090703,2.2991542000090703,True,,144,705,pesos_e_vieses
+MFT,42,D0 -> D1,0.022814300027675927,5.248016500030644,,Epocas fixas; convergencia nao e criterio de parada do FT.,1,705,pesos_e_vieses
+M0,1337,D0,3.9129952999937814,3.9129952999937814,True,,81,705,pesos_e_vieses
+MRT,1337,D0+D1,4.601673600001959,4.601673600001959,True,,77,705,pesos_e_vieses
+MREC,1337,D1,2.128958400018746,2.128958400018746,True,,151,705,pesos_e_vieses
+MFT,1337,D0 -> D1,0.019749099999899045,3.9327443999936804,,Epocas fixas; convergencia nao e criterio de parada do FT.,1,705,pesos_e_vieses
+M0,2024,D0,3.4578333999961615,3.4578333999961615,True,,76,705,pesos_e_vieses
+MRT,2024,D0+D1,5.9950752000149805,5.9950752000149805,True,,102,705,pesos_e_vieses
+MREC,2024,D1,2.417319200001657,2.417319200001657,True,,171,705,pesos_e_vieses
+MFT,2024,D0 -> D1,0.01949189999140799,3.4773252999875695,,Epocas fixas; convergencia nao e criterio de parada do FT.,1,705,pesos_e_vieses
+GB,42,D0,0.8340184000262525,0.8340184000262525,,,200,3000,limite_superior_folhas
+GB,1337,D0,0.8221195000223815,0.8221195000223815,,,200,3000,limite_superior_folhas
+GB,2024,D0,0.8210923000006005,0.8210923000006005,,,200,3000,limite_superior_folhas
+LR,-1,D0,3.062121399998432,3.062121399998432,True,,1546,21,pesos_e_vies

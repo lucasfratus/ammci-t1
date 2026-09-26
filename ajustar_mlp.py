@@ -14,6 +14,8 @@ Regras que este script garante:
     valida no futuro imediato, nunca o contrario.
   - O corte entre treino e validacao cai sempre em fronteira de semana, para
     que linhas da mesma semana nao aparecam dos dois lados.
+  - Um embargo de sete dias exige que o horizonte do alvo de cada linha de
+    treino termine antes da primeira semana de validacao.
   - O StandardScaler e ajustado dentro de cada fold, so com o treino daquele
     fold. Ajustar antes do loop vazaria estatisticas da validacao.
 """
@@ -21,6 +23,7 @@ Regras que este script garante:
 import argparse
 import json
 import time
+import warnings
 from itertools import product
 from pathlib import Path
 
@@ -29,6 +32,8 @@ import pandas as pd
 from sklearn.metrics import matthews_corrcoef
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
+from sklearn.exceptions import ConvergenceWarning
+from threadpoolctl import threadpool_limits
 
 SEED = 42
 
@@ -60,23 +65,33 @@ def folds_temporais(datas: pd.Series, n_folds: int):
     e valida no bloco 3; e assim por diante. E o mesmo principio do
     TimeSeriesSplit, mas cortando em fronteira de semana em vez de por indice
     de linha, porque cada semana tem ~100 linhas e um corte por indice partiria
-    uma semana ao meio.
+    uma semana ao meio. O ultimo horizonte de treino deve terminar antes da
+    validacao; remove-se a semana imediatamente anterior (embargo de 7 dias).
     """
+    if n_folds < 1 or datas.isna().any():
+        raise ValueError('Numero de folds ou datas invalidos.')
     semanas = np.array(sorted(datas.unique()))
+    if len(semanas) < n_folds + 1:
+        raise ValueError('Semanas insuficientes para os folds solicitados.')
     blocos = np.array_split(semanas, n_folds + 1)
 
     for i in range(n_folds):
         semanas_treino = np.concatenate(blocos[: i + 1])
         semanas_val = blocos[i + 1]
         treino = datas.isin(semanas_treino).to_numpy()
+        # O alvo em t utiliza t+7 dias. Exigir t+7 < inicio_validacao:
+        # a ultima semana anterior a validacao nao pode entrar no treino.
+        treino = treino & (datas + pd.Timedelta(days=7) < pd.Timestamp(semanas_val[0])).to_numpy()
         val = datas.isin(semanas_val).to_numpy()
+        if not treino.any():
+            raise ValueError('Treino vazio depois do embargo temporal de sete dias.')
         yield treino, val, pd.Timestamp(semanas_val[0])
 
 
 def avaliar(params: dict, X: pd.DataFrame, y: np.ndarray,
             datas: pd.Series, n_folds: int, max_iter: int) -> dict:
     """Roda a validacao cronologica para uma combinacao e devolve as metricas."""
-    mccs, tempos = [], []
+    mccs, tempos, iteracoes, convergencias = [], [], [], []
 
     for treino, val, _ in folds_temporais(datas, n_folds):
         escala = StandardScaler().fit(X[treino])
@@ -87,7 +102,11 @@ def avaliar(params: dict, X: pd.DataFrame, y: np.ndarray,
             early_stopping=False,
         )
         t0 = time.perf_counter()
-        modelo.fit(escala.transform(X[treino]), y[treino])
+        with warnings.catch_warnings(record=True) as avisos:
+            warnings.simplefilter('always', ConvergenceWarning)
+            modelo.fit(escala.transform(X[treino]), y[treino])
+        convergencias.append(not any(issubclass(a.category, ConvergenceWarning) for a in avisos))
+        iteracoes.append(int(modelo.n_iter_))
         tempos.append(time.perf_counter() - t0)
         mccs.append(matthews_corrcoef(y[val], modelo.predict(escala.transform(X[val]))))
 
@@ -96,6 +115,8 @@ def avaliar(params: dict, X: pd.DataFrame, y: np.ndarray,
         "mcc_desvio": float(np.std(mccs)),
         "mcc_por_fold": [round(m, 4) for m in mccs],
         "tempo_medio_s": round(float(np.mean(tempos)), 1),
+        "iteracoes_por_fold": iteracoes,
+        "convergiu_por_fold": convergencias,
     }
 
 
@@ -104,7 +125,7 @@ def main() -> None:
     p.add_argument("--base", default="dados/processados/base_d0.csv", type=Path)
     p.add_argument("--saida", default="modelos/hiperparametros.json", type=Path)
     p.add_argument("--folds", default=4, type=int)
-    p.add_argument("--max-iter", default=100, type=int)
+    p.add_argument("--max-iter", default=800, type=int)
     args = p.parse_args()
 
     d0 = pd.read_csv(args.base, parse_dates=["date"])
@@ -164,6 +185,9 @@ def main() -> None:
         "mcc_desvio_d0": melhor["mcc_desvio"],
         "folds": args.folds,
         "seed_busca": SEED,
+        "embargo_dias": 7,
+        "convergiu_por_fold": melhor["convergiu_por_fold"],
+        "iteracoes_por_fold": melhor["iteracoes_por_fold"],
     }
     args.saida.write_text(json.dumps(melhor_serializavel, indent=2) + "\n")
 
@@ -177,4 +201,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    with threadpool_limits(limits=1):
+        main()

@@ -192,7 +192,7 @@ def main() -> None:
 
     for nome, bloco in blocos.items():
         caminho = args.saida / f"base_{nome}.csv"
-        bloco.to_csv(caminho, index=False)
+        bloco.to_csv(caminho, index=False, lineterminator='\n')
         manifesto.append(f"{nome} {len(bloco)} linhas sha256={sha256(caminho)}")
         print(
             f"{nome.upper()}  {bloco['date'].min().date()} a {bloco['date'].max().date()}"

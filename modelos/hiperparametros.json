@@ -2,11 +2,24 @@
   "hidden_layer_sizes": [
     32
   ],
-  "alpha": 0.0001,
+  "alpha": 0.01,
   "learning_rate_init": 0.003,
-  "max_iter": 100,
-  "mcc_validacao_d0": 0.3205225528889924,
-  "mcc_desvio_d0": 0.06200406464274823,
+  "max_iter": 800,
+  "mcc_validacao_d0": 0.32127737803036627,
+  "mcc_desvio_d0": 0.06488396493474491,
   "folds": 4,
-  "seed_busca": 42
+  "seed_busca": 42,
+  "embargo_dias": 7,
+  "convergiu_por_fold": [
+    true,
+    true,
+    true,
+    true
+  ],
+  "iteracoes_por_fold": [
+    144,
+    107,
+    72,
+    84
+  ]
 }

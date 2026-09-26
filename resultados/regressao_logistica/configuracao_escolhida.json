@@ -6,6 +6,6 @@
   "max_iter": 6000,
   "tolerancia": 1e-11,
   "criterio_selecao": "maior MCC medio arredondado a 4 casas; desempate por menor tempo medio; exige convergencia em todos os folds",
-  "mcc_medio": 0.2944700753600358,
-  "mcc_desvio": 0.05061279332267496
+  "mcc_medio": 0.29493847216088753,
+  "mcc_desvio": 0.05114322941164527
 }

@@ -1,0 +1,10 @@
+{
+  "config": "GB01",
+  "learning_rate": 0.05,
+  "max_iter": 200,
+  "max_leaf_nodes": 15,
+  "l2_regularization": 0.0,
+  "class_weight": "balanced",
+  "early_stopping": false,
+  "random_state": 42
+}

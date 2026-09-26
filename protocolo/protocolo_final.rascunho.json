@@ -1,0 +1,269 @@
+{
+  "status": "RASCUNHO_PARA_REVISAO_DA_EQUIPE",
+  "versao": 2,
+  "dados_permitidos_antes_do_congelamento": [
+    "D0",
+    "D1"
+  ],
+  "hashes_dados": {
+    "D0": "e8b88b32877527751d3489cd8c0a4d0fb5c0949b1f138f0d94e2d2ed0cc06f92",
+    "D1": "d25054052065a52320e66d9c2660891568b262984a7d08d9a458db088cffe636",
+    "D2": "a9d7431ee1fb8ce33a041ec80c0c19c82096b20e5916dbd670892115436ae53a"
+  },
+  "linhas_dados": {
+    "D0": 42800,
+    "D1": 14200,
+    "D2": 14200
+  },
+  "ambiente": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "joblib": "1.6.0",
+    "threadpoolctl": "3.7.0"
+  },
+  "periodos": {
+    "D0": [
+      "2013-01-02",
+      "2021-03-10"
+    ],
+    "D1": [
+      "2021-03-24",
+      "2023-12-06"
+    ],
+    "D2": [
+      "2023-12-20",
+      "2026-09-02"
+    ]
+  },
+  "features": [
+    "rank",
+    "rank_lag1",
+    "rank_lag2",
+    "variacao_1s",
+    "peak_pos",
+    "distancia_pico",
+    "semanas_na_parada",
+    "hiato_semanas",
+    "estreia",
+    "reentrada",
+    "radio_rank",
+    "radio_presente",
+    "streaming_rank",
+    "streaming_presente",
+    "digital_rank",
+    "digital_presente",
+    "album_rank",
+    "album_presente",
+    "mes",
+    "semana_ano"
+  ],
+  "alvo": "1 se mesma musica tem rank menor em t+7 dias; 0 se igual, maior ou ausente",
+  "horizonte_dias": 7,
+  "embargo_dias": 7,
+  "seeds": [
+    42,
+    1337,
+    2024
+  ],
+  "limiar": 0.5,
+  "modelo_principal": "MLPClassifier sem pesos pre-treinados",
+  "hiperparametros": {
+    "hidden_layer_sizes": [
+      32
+    ],
+    "alpha": 0.01,
+    "learning_rate_init": 0.003,
+    "max_iter": 800,
+    "mcc_validacao_d0": 0.32127737803036627,
+    "mcc_desvio_d0": 0.06488396493474491,
+    "folds": 4,
+    "seed_busca": 42,
+    "embargo_dias": 7,
+    "convergiu_por_fold": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "iteracoes_por_fold": [
+      144,
+      107,
+      72,
+      84
+    ]
+  },
+  "finetuning": {
+    "config": "B_lr_original",
+    "learning_rate_init": 0.003,
+    "alpha": 0.01,
+    "epocas": 1,
+    "mcc_d1b": 0.212,
+    "ganho_vs_m0_d1b": 0.0218,
+    "fracao_d1a": 0.75,
+    "seeds": [
+      42,
+      1337,
+      2024
+    ],
+    "hiperparametros_m0": {
+      "hidden_layer_sizes": [
+        32
+      ],
+      "alpha": 0.01,
+      "learning_rate_init": 0.003,
+      "max_iter": 800,
+      "mcc_validacao_d0": 0.32127737803036627,
+      "mcc_desvio_d0": 0.06488396493474491,
+      "folds": 4,
+      "seed_busca": 42,
+      "embargo_dias": 7,
+      "convergiu_por_fold": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "iteracoes_por_fold": [
+        144,
+        107,
+        72,
+        84
+      ]
+    },
+    "embargo_d1_dias": 7,
+    "configuracoes_testadas": {
+      "A_lr_baixo": {
+        "learning_rate_init": 0.00030000000000000003,
+        "alpha": 0.01
+      },
+      "B_lr_original": {
+        "learning_rate_init": 0.003,
+        "alpha": 0.01
+      },
+      "C_lr_baixo_reg_forte": {
+        "learning_rate_init": 0.00030000000000000003,
+        "alpha": 1.0
+      }
+    }
+  },
+  "estrategias": {
+    "M0": "treinar do zero em D0; scaler ajustado somente em D0",
+    "MFT": "copiar M0, manter scaler de D0, reiniciar Adam e atualizar somente em D1 pelas epocas fixadas",
+    "MRT": "mesma arquitetura e hiperparametros; novos pesos e scaler em D0+D1",
+    "MREC": "mesma arquitetura e hiperparametros; novos pesos e scaler somente em D1"
+  },
+  "comparadores": {
+    "gradient_boosting": {
+      "config": "GB01",
+      "learning_rate": 0.05,
+      "max_iter": 200,
+      "max_leaf_nodes": 15,
+      "l2_regularization": 0.0,
+      "class_weight": "balanced",
+      "early_stopping": false,
+      "random_state": 42
+    },
+    "regressao_logistica_zero": {
+      "nome": "lr_1_balanceado",
+      "taxa_aprendizado": 1.0,
+      "class_weight": "balanced",
+      "l2": 0.0,
+      "max_iter": 6000,
+      "tolerancia": 1e-11,
+      "criterio_selecao": "maior MCC medio arredondado a 4 casas; desempate por menor tempo medio; exige convergencia em todos os folds",
+      "mcc_medio": 0.29493847216088753,
+      "mcc_desvio": 0.05114322941164527
+    },
+    "uso": "baselines historicos treinados em D0 e avaliados em D2; nao substituem MLP",
+    "seeds_gb": [
+      42,
+      1337,
+      2024
+    ],
+    "logistica_deterministica": true
+  },
+  "metricas": [
+    "MCC",
+    "F1",
+    "precision",
+    "recall",
+    "average_precision",
+    "ROC_AUC",
+    "accuracy",
+    "matriz_confusao",
+    "tempo_treino_s",
+    "tempo_inferencia_s",
+    "numero_parametros"
+  ],
+  "metrica_principal": "MCC",
+  "agregacao": "media e desvio amostral (ddof=1) entre tres seeds; logistica uma execucao",
+  "variacao_vs_m0": "diferenca absoluta e relativa do MCC medio; relativa indefinida se M0=0",
+  "ordem": "concluir todos os treinos antes de carregar D2; nenhuma decisao revista pelo desempenho em D2",
+  "convergencia": "registrar avisos e iteracoes; nao reajustar hiperparametros apos ver D2",
+  "drift_final": "mesmas medidas de E11; PSI em D0->D2 usa bins D0; D1->D2 usa bins D1; descritivo sem p-valores iid",
+  "explicabilidade": {
+    "metodo": "permutation_importance",
+    "scoring": "matthews_corrcoef",
+    "conjunto": "D2, apenas depois de avaliar",
+    "modelos": [
+      "M0",
+      "MFT",
+      "MRT",
+      "MREC"
+    ],
+    "n_repeats": 10,
+    "random_state": 42,
+    "uso": "analise descritiva; nao selecionar atributos nem reajustar modelos"
+  },
+  "erros": {
+    "cortes": [
+      "rank: 1-10/11-40/41-100",
+      "estreia",
+      "reentrada",
+      "semanas_na_parada: 1-4/5-12/13+",
+      "presenca nos rankings auxiliares",
+      "trimestre de D2"
+    ],
+    "exemplos": "10 falsos positivos e 10 falsos negativos mais confiantes por modelo/seed"
+  },
+  "analises": {
+    "erros_por_tipo": 10,
+    "versao_cortes": "rank10_40_tempo4_12_trimestre_v1"
+  },
+  "saidas": [
+    "resultados/final/previsoes.csv",
+    "resultados/final/metricas_seeds.csv",
+    "resultados/final/resumo.csv",
+    "resultados/final/matrizes_confusao.csv",
+    "resultados/final/tempos.csv",
+    "resultados/final/protocolo_congelado.json",
+    "resultados/final/modelos.joblib",
+    "resultados/final/treinamento.csv",
+    "resultados/final/curvas_treino.csv",
+    "resultados/final/metricas_desenvolvimento.csv",
+    "resultados/final/execucao.json",
+    "resultados/final/manifesto_resultados.json",
+    "resultados/analises_finais/"
+  ],
+  "correcao_software": "documentar erro, preservar resultados e repetir protocolo afetado; nunca selecionar correcao pelo MCC",
+  "revisao_pendente": "equipe revisa este rascunho; depois salvar versao congelada com hash antes de avaliar D2",
+  "hashes_fontes": {
+    "ajustar_mlp.py": "270a8625319f7cf0777958a82068c44554a19e6dc22c3b987746f2f834d13391",
+    "selecionar_finetuning.py": "4d854e603a4055f54bcbb0d6de53d0c68c622b85f72fdb144d02d0498162fdae",
+    "construir_base.py": "f2ca7839d0d12d22ceb2200692a2a8da52b295c3e3777920a83530d005d49ce9",
+    "analisar_dados_drift.py": "e4e7bd8499e3f3e44d1cc2f99ebd4e7a571f043146d8ccadd52fa75ccc372db2",
+    "avaliar_gradient_boosting.py": "c9ac787b9e43458bafde249dda9c20db09f79c4118844e5aa87d821102669b50",
+    "modelos/hiperparametros.json": "032f6dd22c9d170bc4ab722d8cc3aca3c878088793e6df3053fc4f0d7b4bdb63",
+    "modelos/finetuning_escolhido.json": "76c41d3fd59a8b4375d14ab9ff0ddaca993482dccf781fec309b55ee1a49d55d",
+    "protocolo_final.py": "a1eafc2e8361c056126ae658bc88902346167eb77a4745ceebff4beb8082847c",
+    "experimento_final.py": "b65cdd5c5e8fca494b0196a41b065d4bf93a2234a8a3d79fc24cadcc0409246d",
+    "analisar_resultados_finais.py": "6106a48425257a7712ac7f948ac0d12b63b1ee55b55f99fdddff4fa93339772a",
+    "preparar_protocolo_final.py": "eca7b7bbabd3430b56c28e002690515b7b4538ac0913767e3930c6f1e82edd58",
+    "regressao_logistica_zero.py": "74a65432dc3bcdd1498c706a6cd79a8b388203b49cf8320ae6f49f3d12b059f4",
+    "auditoria_billboard.py": "dbb4cf2649c22d906918e5e5f969fdde55163293d55a568cb5c4703620dbb2d4",
+    "comparar_regressao_logistica.py": "9f9bf312a26bb335ce5ec5e4dea09d5c92ee178dd64cd30d74ef68e66c217cba",
+    "requirements.txt": "fd19d88cede1c7b013ab9039cd261bc48155dd05e79ab6fb501f01ca8e94b2df"
+  }
+}

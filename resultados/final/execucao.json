@@ -1,0 +1,21 @@
+{
+  "eventos": [
+    {
+      "etapa": "TREINANDO",
+      "utc": "2026-09-26T12:16:45.817294+00:00"
+    },
+    {
+      "etapa": "TODOS_OS_MODELOS_TREINADOS",
+      "utc": "2026-09-26T12:17:27.600797+00:00"
+    },
+    {
+      "etapa": "D2_CARREGADO",
+      "utc": "2026-09-26T12:17:27.640269+00:00"
+    },
+    {
+      "etapa": "CONCLUIDO",
+      "utc": "2026-09-26T12:17:28.648276+00:00"
+    }
+  ],
+  "status": "CONCLUIDO"
+}
