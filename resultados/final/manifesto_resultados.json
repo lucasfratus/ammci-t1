@@ -1,15 +1,16 @@
 {
-  "curvas_treino.csv": "df9472f2da8fdad857c4233982a3d0877df7ff1f7bd26534395004a6858b85fa",
-  "execucao.json": "d679403e223fe1d9adab128862673aa87d676ef5d32467b6d6d95606361a1a15",
-  "matrizes_confusao.csv": "02abf0ab1fd4a89e9761e39635d08befed98ec1e4ea1d705b2663b041b0a3892",
-  "metricas_desenvolvimento.csv": "8dcecc5b93ddc9024b620f4ba835738470ff0dfea7e36888a5f3aa095b451257",
-  "metricas_seeds.csv": "d45dd601f8e00fa75e4ba52648bd72d986fb690d4108b05b977bcc2ac97a9334",
+  "CORRECAO_REPRODUTIBILIDADE.md": "f4aeefdbcede94655c3ab118579536fde74aa19d4ac20cef0a53680e5a6aea4d",
+  "RELATORIO.md": "081dfc675d857f5b2a2cdd9ec3401f7b0d3f32975e7c24a1fa9c8908973d4284",
+  "curvas_treino.csv": "d076702d4ec925c7dae200bcca998b45efa7bea518a515bccb56d02fc79d24eb",
+  "execucao.json": "136c8dd7110141a80a61afed2e84af3468eae2721e9881353d42d20456d8c45f",
+  "matrizes_confusao.csv": "a35484bebc3b87263b1f95cf76789e8520bc0c07e1c7b73a1fdaea271cc54f72",
+  "metricas_desenvolvimento.csv": "716dfe0d11c8751c75483a3251e82d0717fa4a51fafd7f6409cbf4e0e2b63eeb",
+  "metricas_seeds.csv": "da4af8dbf8b96aba5d0382c7eb8f40c0bfe826754f25ec2245015d4690b5a8b0",
   "modelos.joblib": "bf516fbb2c4ca8f20dd4e0de237f89803510539bdb5210df7162ebbb30db6d3f",
-  "previsoes.csv": "5865f9657fb6c48a32a38c28b231571c20eeedbb1b82b5aa7fe5caf4408acc5a",
-  "protocolo_congelado.json": "ad6e1d1fd71aa741a9454fdad1b2f48dc7a1111e4759630e7f02033a35d0b3a6",
-  "protocolo_congelado.sha256": "f841cda9364efc7a3fef3a28e9cbfda003a06c58194eef05cac0f426f3e2146c",
-  "RELATORIO.md": "a1cfddcaed01089c12b02b7df7d7a3b85be7236ae95a54f818fd942408eb3445",
-  "resumo.csv": "b618e1c3ffd51618c6d391dc00addc99885a160993462d79c2cc09caed405982",
-  "tempos.csv": "858bf490ad3b788ef606aea44587eadbfd80887e24b6a29fbb432ba8f4561647",
-  "treinamento.csv": "9676ef6f0d3f000e7838a0b2336873e55f26713a8d583a537861bf12eac531eb"
+  "previsoes.csv": "703f855d575413e0cc8fabd9949dd29b0fdb5aa0ddefb17a4c19e866f2595746",
+  "protocolo_congelado.json": "069305da99cfcc7824dfba1f3402f2c6f61275144d842f7f5e31ce60697526fe",
+  "protocolo_congelado.sha256": "2d12d60736b5adb1cc288c02fbbe82b8827f25ce603df40e1c88925bb04390dd",
+  "resumo.csv": "def706a94938b7c212637f6bd0b3a9721c40079aab25de30e41c636a013cb467",
+  "tempos.csv": "d53f233aae1fe21804de7605cbd0b9dc6c0d37b1064999c3746f6c05edf7ee88",
+  "treinamento.csv": "1cbd60f912b6689f680a7612791a98f15e3a0c43887c320ee162b4e5fc4cacd8"
 }

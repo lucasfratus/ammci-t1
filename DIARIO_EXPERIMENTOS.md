@@ -225,3 +225,22 @@ Seeds atuais: 42 na busca; 42, 1337 e 2024 nos experimentos estocásticos princi
 - Tempos de seleção e comparação constam dos CSVs por fold; os tempos finais estão em `resultados/final/tempos.csv`.
 - Configurações e hashes da avaliação oficial: `protocolo/protocolo_final.congelado.json`. Eventos: `resultados/final/execucao.json`. Integridade: `resultados/final/manifesto_resultados.json` e `resultados/analises_finais/manifesto_analises.json`.
 - E01 possui artefato de auditoria anterior à revisão. E02 é decisão herdada. E03 depende de evidência não localizada. E08 reutiliza resultados de E07. Não apresentar esses registros como novos treinamentos independentes.
+
+## E16 — Correção R2 e reprodução multiplataforma
+
+- **hipótese investigada:** normalizar terminações de linha nos hashes deve
+  restaurar a reprodutibilidade entre Windows e Linux sem alterar resultados.
+- **problema:** protocolo e manifestos da versão 2 foram calculados sobre CRLF
+  ou terminações misturadas e falhavam após o checkout do Git com LF.
+- **alteração realizada:** política SHA-256 canônica para texto, escrita LF
+  determinística, `.gitattributes` e testes sobre os artefatos reais.
+- **dados:** os mesmos D0, D1 e D2, com hashes e decisões preservados.
+- **resultado:** 34 testes aprovados; nova execução dos 16 modelos produziu as
+  mesmas 227.200 previsões e as mesmas métricas, matrizes, curvas e análises.
+  Apenas os tempos de execução variaram.
+- **decisão:** adotar o protocolo versão 3 e manter a versão 2 registrada no
+  histórico Git e nos metadados da correção.
+- **interpretação:** a falha era de serialização/terminação de linha, não de
+  modelagem ou dos resultados numéricos.
+- **artefatos:** `protocolo/protocolo_final.congelado.json`,
+  `resultados/final/CORRECAO_REPRODUTIBILIDADE.md`, `.gitattributes` e testes.

@@ -1,19 +1,19 @@
 {
-  "protocolo_sha256": "ad6e1d1fd71aa741a9454fdad1b2f48dc7a1111e4759630e7f02033a35d0b3a6",
-  "resultados_sha256": "d6151b5af7d3b950aa335584d583ae880a7dc3ddbb9969698f2da40f28549965",
+  "protocolo_sha256": "069305da99cfcc7824dfba1f3402f2c6f61275144d842f7f5e31ce60697526fe",
+  "resultados_sha256": "15e9393cca8725f45b10048c148b8bce284297be8cb67642d6337e689d2a5bc8",
   "arquivos": {
-    "alvo_periodos.csv": "da97337f2edd1acebfd94692317fe60af9caf0336d3f68b05b6a9fd658158651",
-    "drift.csv": "db09c146669fbb4e8ca17e261449706b05300a46ee2e693dc8690e7b2a12c8d6",
+    "RELATORIO.md": "2bb1e150d4179646007691b1abcb03de1fdf278556d91d495400a456ff74955b",
+    "alvo_periodos.csv": "a01cafa9ad286df1232e0164a5ece951362c541150ac6c66a0fae8939bf3cd01",
+    "drift.csv": "a3777a36cb40aadfd989cb69930013991dc598093ca5b2002c2b65ac1da63ec4",
     "drift.png": "d94825b8d7a5c5720cf5dfcf84ddfcad59a4bf002b2c4276913aa0e55c88996b",
-    "erros_exemplos.csv": "bdc05d1f7e6b6fee901d621bfdecf93abce522f9d7d7353eefceebd8c0669ba0",
-    "erros_grupos.csv": "41a02226dbf52eb8eef2a3f91af83741831fb31b0ccdeace8b466b8a6bba1a20",
+    "erros_exemplos.csv": "3c4c5607f13784c6fc91a7f37c326c5b37069ebd23a8af9e1bc414289c08455b",
+    "erros_grupos.csv": "063454fc08dfec5b1101d57d99007cf7b02b37a535f4c45bebdc2372a0abf685",
     "importancias.png": "f3c5572666c613cd48464d0a057802b9b80eaeda06a4bc150245558095717061",
-    "importancias_repeticoes.csv": "19d7817139ab9402afb533593179f79be86c26140b2fda2de0d97643105049ba",
-    "importancias_resumo.csv": "018452d6f8e2e158d4d517d29aeaf8a38f774894c344c4a8d2f90554a288ea61",
-    "importancias_seeds.csv": "55b6b1dc84250ade2e518ed7769f1b2b716e0743c2a0df83174910a9152a33f0",
-    "intervalos_psi.csv": "a43b1c60525c510f976b710cf65e3b6aa671da29ab95c859ccc103de0ca428c7",
-    "m0_por_periodo.csv": "13df7a05d2df1a5c339a076bc02ec0306bbb8c5ef84280662a5e7291eb0dd0b7",
-    "matrizes_confusao.png": "934c9e11ce2bfdf819ca1a55f9a2876843788df9789f7722fbc85a70fff641ca",
-    "RELATORIO.md": "29e02124007f6290b1d26f4ef7a4794edffcca793d0ae917cd757a8d64123b43"
+    "importancias_repeticoes.csv": "18165c8281c64d4bcf1c318b25961d264b3d02de46ec962ec4aca5b561248683",
+    "importancias_resumo.csv": "be167ed687feda77723d1cb755a0723a6d8c411ede6022b94ccfb81a23556191",
+    "importancias_seeds.csv": "59fd55dcfca03c3cb3c23f5351c012dfe8cb5b48f8fef59fc899e2b4ceb33060",
+    "intervalos_psi.csv": "3c5bd29ee6913915df9a0ac662f40536b7cfbd38ea506383b7caebf5c676d740",
+    "m0_por_periodo.csv": "b974ef180badee85da330ea2d5d37493e4daafa495feabadfd89259821161f88",
+    "matrizes_confusao.png": "934c9e11ce2bfdf819ca1a55f9a2876843788df9789f7722fbc85a70fff641ca"
   }
 }

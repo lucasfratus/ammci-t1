@@ -15,8 +15,8 @@ from threadpoolctl import threadpool_limits
 
 import experimento_final as final
 from analisar_resultados_finais import executar as analisar, conferir_execucao, analisar_erros
-from protocolo_final import (RAIZ, carregar_bloco, congelar, ler_protocolo,
-                             salvar_json, sha256, validar)
+from protocolo_final import (RAIZ, carregar_bloco, congelar, corrigir_congelado,
+                             ler_protocolo, salvar_json, sha256, validar)
 
 
 class TestExperimentoFinal(unittest.TestCase):
@@ -100,6 +100,15 @@ class TestExperimentoFinal(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'Hash'):
             ler_protocolo(caminho)
 
+    def test_hash_textual_independe_de_crlf_lf(self):
+        lf = self.raiz/'eol_lf.md'
+        crlf = self.raiz/'eol_crlf.md'
+        lf.write_bytes(b'linha 1\nlinha 2\n')
+        crlf.write_bytes(b'linha 1\r\nlinha 2\r\n')
+        self.assertEqual(sha256(lf), sha256(crlf))
+        crlf.write_bytes(b'linha 1\r\nlinha alterada\r\n')
+        self.assertNotEqual(sha256(lf), sha256(crlf))
+
     def test_fontes_alteradas_recusadas(self):
         caminho=self.raiz/'fonte_alterada.json'
         p=json.loads(self.congelado.read_text(encoding='utf-8'))
@@ -108,6 +117,18 @@ class TestExperimentoFinal(unittest.TestCase):
         caminho.with_suffix('.sha256').write_text(sha256(caminho))
         with self.assertRaisesRegex(ValueError,'diverge'):
             ler_protocolo(caminho)
+
+    def test_correcao_de_hash_recusa_mudanca_experimental(self):
+        rascunho = self.raiz/'rascunho_alterado.json'
+        p = copy.deepcopy(self.p)
+        p['limiar'] = 0.4
+        salvar_json(rascunho, p)
+        rascunho.with_suffix('.sha256').write_text(sha256(rascunho))
+        destino = self.raiz/'congelado_para_correcao.json'
+        shutil.copyfile(self.congelado, destino)
+        shutil.copyfile(self.congelado.with_suffix('.sha256'), destino.with_suffix('.sha256'))
+        with self.assertRaisesRegex(ValueError, 'decisão experimental: limiar'):
+            corrigir_congelado(rascunho, destino, 'teste')
 
     def test_hash_dados_bloqueia_antes_de_parsear(self):
         p=copy.deepcopy(self.p)
@@ -213,6 +234,11 @@ class TestExperimentoFinal(unittest.TestCase):
         p['periodos']['D1'][0]=str((pd.Timestamp(p['periodos']['D0'][1])+pd.Timedelta(days=7)).date())
         with self.assertRaisesRegex(ValueError,'embargo'):
             validar(p)
+
+    def test_entrega_versionada_tem_integridade(self):
+        protocolo = ler_protocolo(RAIZ/'protocolo/protocolo_final.congelado.json')
+        self.assertEqual(protocolo['status'], 'CONGELADO')
+        self.assertEqual(conferir_execucao(RAIZ/'resultados/final')['versao'], 3)
 
 
 if __name__ == '__main__':

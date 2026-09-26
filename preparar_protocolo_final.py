@@ -1,10 +1,9 @@
 """Produz rascunho revisavel do protocolo, sem abrir nem avaliar D2."""
-import hashlib
 import json
 from pathlib import Path
 
 from construir_base import FEATURES
-from protocolo_final import PACOTES
+from protocolo_final import PACOTES, POLITICA_HASH, salvar_json, salvar_texto, sha256
 from importlib.metadata import version
 
 
@@ -33,9 +32,10 @@ def main():
               'protocolo_final.py', 'experimento_final.py', 'analisar_resultados_finais.py',
               'preparar_protocolo_final.py', 'regressao_logistica_zero.py',
               'auditoria_billboard.py', 'comparar_regressao_logistica.py',
-              'requirements.txt']
+              'reparar_manifestos.py', 'requirements.txt']
     protocolo = dict(
-        status='RASCUNHO_PARA_REVISAO_DA_EQUIPE', versao=2,
+        status='RASCUNHO_PARA_REVISAO_DA_EQUIPE', versao=3,
+        hash_policy=POLITICA_HASH,
         dados_permitidos_antes_do_congelamento=['D0', 'D1'],
         hashes_dados=hashes,
         linhas_dados=linhas, ambiente={nome:version(nome) for nome in PACOTES},
@@ -79,13 +79,12 @@ def main():
                 'resultados/analises_finais/'],
         correcao_software='documentar erro, preservar resultados e repetir protocolo afetado; nunca selecionar correcao pelo MCC',
         revisao_pendente='equipe revisa este rascunho; depois salvar versao congelada com hash antes de avaliar D2',
-        hashes_fontes={p: hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in fontes})
+        hashes_fontes={p: sha256(p) for p in fontes})
     pasta = Path('protocolo')
     pasta.mkdir(exist_ok=True)
     destino = pasta/'protocolo_final.rascunho.json'
-    destino.write_text(json.dumps(protocolo, indent=2, ensure_ascii=False)+'\n', encoding='utf-8')
-    (pasta/'protocolo_final.rascunho.sha256').write_text(
-        hashlib.sha256(destino.read_bytes()).hexdigest()+'\n', encoding='utf-8')
+    salvar_json(destino, protocolo)
+    salvar_texto(pasta/'protocolo_final.rascunho.sha256', sha256(destino)+'\n')
     print(f'Rascunho para revisao: {destino}. D2 nao foi aberto.')
 
 

@@ -18,7 +18,8 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 from threadpoolctl import threadpool_limits
 
-from protocolo_final import carregar_bloco, ler_protocolo, salvar_json, sha256
+from protocolo_final import (carregar_bloco, ler_protocolo, salvar_csv,
+                             salvar_json, salvar_texto, sha256)
 from regressao_logistica_zero import RegressaoLogisticaZero
 from selecionar_finetuning import preparar_finetuning, uma_epoca
 
@@ -167,7 +168,7 @@ def executar(caminho_protocolo, dados, saida):
     saida = Path(saida)
     saida.mkdir(parents=True, exist_ok=False)
     salvar_json(saida/'protocolo_congelado.json', p)
-    (saida/'protocolo_congelado.sha256').write_text(sha256(saida/'protocolo_congelado.json')+'\n')
+    salvar_texto(saida/'protocolo_congelado.sha256', sha256(saida/'protocolo_congelado.json')+'\n')
     eventos = []
 
     def evento(etapa):
@@ -178,8 +179,8 @@ def executar(caminho_protocolo, dados, saida):
         evento('TREINANDO')
         with threadpool_limits(limits=1):
             modelos, treino, curvas = treinar_modelos(d0, d1, p)
-            treino.to_csv(saida/'treinamento.csv', index=False)
-            curvas.to_csv(saida/'curvas_treino.csv', index=False)
+            salvar_csv(saida/'treinamento.csv', treino)
+            salvar_csv(saida/'curvas_treino.csv', curvas)
             joblib.dump(modelos, saida/'modelos.joblib', compress=3)
             # Metricas de desenvolvimento para contextualizar generalizacao.
             desenvolvimento = []
@@ -193,21 +194,21 @@ def executar(caminho_protocolo, dados, saida):
                 for conjunto, df in conjuntos:
                     desenvolvimento.append(dict(modelo=nome, seed=a['seed'], conjunto=conjunto,
                         **metricas(df.alvo.to_numpy(), probabilidades(a, df[p['features']]), p['limiar'])))
-            pd.DataFrame(desenvolvimento).to_csv(saida/'metricas_desenvolvimento.csv', index=False)
+            salvar_csv(saida/'metricas_desenvolvimento.csv', pd.DataFrame(desenvolvimento))
             evento('TODOS_OS_MODELOS_TREINADOS')
             # Somente aqui os bytes/conteudo de D2 sao acessados pela primeira vez.
             d2 = carregar_bloco(dados, 'D2', p)
             evento('D2_CARREGADO')
             tabela, pred = avaliar_modelos(modelos, d2, p)
-        tabela.to_csv(saida/'metricas_seeds.csv', index=False)
-        pred.to_csv(saida/'previsoes.csv', index=False)
+        salvar_csv(saida/'metricas_seeds.csv', tabela)
+        salvar_csv(saida/'previsoes.csv', pred)
         resumo = resumir(tabela)
-        resumo.to_csv(saida/'resumo.csv', index=False)
-        tabela[['modelo', 'seed', 'tn', 'fp', 'fn', 'tp']].to_csv(saida/'matrizes_confusao.csv', index=False)
-        treino.merge(tabela[['modelo','seed','tempo_inferencia_s']], on=['modelo','seed']).to_csv(saida/'tempos.csv', index=False)
+        salvar_csv(saida/'resumo.csv', resumo)
+        salvar_csv(saida/'matrizes_confusao.csv', tabela[['modelo', 'seed', 'tn', 'fp', 'fn', 'tp']])
+        salvar_csv(saida/'tempos.csv', treino.merge(tabela[['modelo','seed','tempo_inferencia_s']], on=['modelo','seed']))
         linhas = '\n'.join(f'| {r.modelo} | {r.mcc_media:.4f} | {r.mcc_desvio:.4f} | {r.delta_mcc_vs_m0:+.4f} |'
                            for r in resumo.itertuples())
-        (saida/'RELATORIO.md').write_text(
+        salvar_texto(saida/'RELATORIO.md',
             '# E12 — Avaliacao final\n\n| Modelo | MCC | Desvio entre seeds | Diferenca vs M0 |\n'
             '|---|---:|---:|---:|\n'+linhas+'\n\n'
             'Desvio amostral ddof=1; LR deterministica tem uma execucao (seed=-1) e desvio indefinido. '
@@ -215,7 +216,7 @@ def executar(caminho_protocolo, dados, saida):
             'Tempos de MFT separam atualizacao e custo total desde M0. '
             'Complexidade de GB e um limite superior de folhas, nao contagem de pesos. '
             'A comparacao central usa M0/MFT/MRT/MREC; GB e LR sao baselines historicos. '
-            'Os desvios entre sementes nao sao intervalos de confianca para a populacao.\n', encoding='utf-8')
+            'Os desvios entre sementes nao sao intervalos de confianca para a populacao.\n')
         evento('CONCLUIDO')
         arquivos = [f for f in saida.iterdir() if f.is_file()]
         salvar_json(saida/'manifesto_resultados.json', {f.name: sha256(f) for f in arquivos})

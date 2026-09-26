@@ -16,7 +16,8 @@ from threadpoolctl import threadpool_limits
 
 from analisar_dados_drift import calcular_drift
 from experimento_final import metricas
-from protocolo_final import carregar_bloco, ler_protocolo, salvar_json, sha256
+from protocolo_final import (carregar_bloco, ler_protocolo, salvar_csv,
+                             salvar_json, salvar_texto, sha256)
 
 
 def conferir_execucao(pasta):
@@ -120,26 +121,26 @@ def executar(final, dados, saida):
         drift_tabelas.append(tabela.assign(referencia=ref, recente=recente))
         bins_tabelas.append(bins.assign(referencia=ref, recente=recente))
     drift = pd.concat(drift_tabelas, ignore_index=True)
-    drift.to_csv(saida/'drift.csv', index=False)
-    pd.concat(bins_tabelas, ignore_index=True).to_csv(saida/'intervalos_psi.csv', index=False)
+    salvar_csv(saida/'drift.csv', drift)
+    salvar_csv(saida/'intervalos_psi.csv', pd.concat(bins_tabelas, ignore_index=True))
     alvo = pd.DataFrame([dict(conjunto=nome, linhas=len(df), proporcao_alvo=float(df.alvo.mean()))
                          for nome, df in blocos.items()])
-    alvo.to_csv(saida/'alvo_periodos.csv', index=False)
+    salvar_csv(saida/'alvo_periodos.csv', alvo)
     erros, exemplos = analisar_erros(predicoes, blocos['D2'], p)
-    erros.to_csv(saida/'erros_grupos.csv', index=False)
-    exemplos.to_csv(saida/'erros_exemplos.csv', index=False)
+    salvar_csv(saida/'erros_grupos.csv', erros)
+    salvar_csv(saida/'erros_exemplos.csv', exemplos)
     with threadpool_limits(limits=1):
         imp = importancias(modelos, blocos['D2'], p)
-    imp.to_csv(saida/'importancias_repeticoes.csv', index=False)
+    salvar_csv(saida/'importancias_repeticoes.csv', imp)
     por_seed = imp.groupby(['modelo','seed','atributo']).queda_mcc.agg(['mean','std']).reset_index()
-    por_seed.to_csv(saida/'importancias_seeds.csv', index=False)
+    salvar_csv(saida/'importancias_seeds.csv', por_seed)
     resumo = por_seed.groupby(['modelo','atributo'])['mean'].agg(['mean','std']).reset_index()
     resumo.columns = ['modelo','atributo','importancia_media','desvio_seeds']
-    resumo.to_csv(saida/'importancias_resumo.csv', index=False)
+    salvar_csv(saida/'importancias_resumo.csv', resumo)
     metricas_finais = pd.read_csv(final/'metricas_seeds.csv')
     dev = pd.read_csv(final/'metricas_desenvolvimento.csv')
     trajetoria = pd.concat([dev[dev.modelo=='M0'], metricas_finais[metricas_finais.modelo=='M0'].assign(conjunto='D2')], ignore_index=True)
-    trajetoria.to_csv(saida/'m0_por_periodo.csv', index=False)
+    salvar_csv(saida/'m0_por_periodo.csv', trajetoria)
 
     fig, axes = plt.subplots(2,2,figsize=(13,8))
     for ax, nome in zip(axes.flat, p['explicabilidade']['modelos']):
@@ -191,7 +192,7 @@ Artefatos: drift.csv, intervalos_psi.csv, alvo_periodos.csv,
 importancias_repeticoes.csv, importancias_seeds.csv, importancias_resumo.csv,
 erros_grupos.csv, erros_exemplos.csv, m0_por_periodo.csv e três figuras.
 '''
-    (saida/'RELATORIO.md').write_text(texto,encoding='utf-8')
+    salvar_texto(saida/'RELATORIO.md', texto)
     salvar_json(saida/'manifesto_analises.json',dict(
         protocolo_sha256=sha256(final/'protocolo_congelado.json'),
         resultados_sha256=sha256(final/'manifesto_resultados.json'),

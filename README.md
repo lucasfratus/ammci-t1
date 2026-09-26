@@ -98,8 +98,9 @@ Executar todos os notebooks não repete todos os experimentos de treinamento.
 python -m unittest discover -v
 ```
 
-São 31 testes na versão entregue, incluindo regressão manual, embargo temporal,
-integridade dos arquivos e integração final com dados sintéticos temporários.
+São 34 testes na versão entregue, incluindo regressão manual, embargo temporal,
+integridade dos artefatos reais, portabilidade LF/CRLF e integração final com
+dados sintéticos temporários.
 Não é necessário baixar os dados reais para esses testes. Mantenha os notebooks,
 configurações e o rascunho de protocolo entregues, que também são usados pelos testes.
 
@@ -125,8 +126,9 @@ Não execute novamente a seleção de hiperparâmetros, a preparação do rascun
 ou o congelamento para esse caminho de reprodução. O avaliador verifica hashes
 do código/configurações e as versões das dependências. Em caso de divergência,
 confira esses arquivos e o ambiente; não modifique os hashes para contornar a verificação.
-Os hashes são dos bytes: preserve também as terminações de linha dos arquivos
-ao extrair o ZIP ou obter o projeto pelo Git.
+Arquivos textuais usam SHA-256 após normalização canônica de CRLF/CR para LF;
+binários usam os bytes exatos. Assim, obter o projeto por Git ou ZIP no Windows
+ou Linux não altera a verificação. `.gitattributes` mantém LF no repositório.
 
 ## Dataset
 
@@ -289,8 +291,12 @@ sem abrir D2. O rascunho precisa da revisão da equipe e do congelamento
 formal antes de executar um novo protocolo. Para reproduzir a avaliação já
 entregue, use o protocolo congelado existente, conforme o guia rápido.
 
-A implementação e a avaliação real foram concluídas em 26/09/2026, após revisão
-e congelamento autorizados pelo usuário. Veja `RESULTADOS_FINAIS.md`.
+A implementação e a avaliação real foram concluídas em 26/09/2026. Uma falha
+de portabilidade dos hashes da versão 2 foi corrigida na versão 3, sem alterar
+features, modelos, hiperparâmetros, seeds, limiar ou métricas. A reprodução
+completa após a correção gerou exatamente as mesmas previsões e métricas,
+desconsiderando apenas tempos de execução. Veja `RESULTADOS_FINAIS.md` e
+`protocolo/REVISAO_FINAL.md`.
 Os comandos abaixo documentam a sequência original, anterior à existência
 dos resultados finais. O congelamento e as saídas finais recusam sobrescrita;
 não execute esse bloco como um procedimento de reprodução da entrega:
@@ -309,7 +315,7 @@ As métricas, previsões, tempos, curvas e hashes ficam em `resultados/final/`.
 Drift entre os três períodos, importância por permutação e erros por grupos
 ficam em `resultados/analises_finais/`. Nenhuma análise reajusta modelos.
 
-O congelamento verifica versões e hashes do código, configurações e dados.
+O congelamento verifica versões e hashes canônicos do código, configurações e dados.
 Se código ou ambiente mudarem, a execução é bloqueada. Antes de congelar,
 regenere o rascunho quando houver alterações. As pastas de saída não são
 sobrescritas: uma falha preserva os artefatos e seu estado em `execucao.json`.
@@ -325,7 +331,9 @@ Para executar os testes do projeto:
 python -m unittest discover -v
 ```
 
-Os testes finais usam conjuntos sintéticos temporários, sem acessar D2 real.
+Os testes de integração usam conjuntos sintéticos temporários. Um teste adicional
+confere a integridade do protocolo e dos artefatos reais sem retreinar ou abrir
+os CSVs de D2.
 
 ## Estrutura atual
 
@@ -348,6 +356,7 @@ Os testes finais usam conjuntos sintéticos temporários, sem acessar D2 real.
 ├── analisar_dados_drift.py     # AED e drift D0 → D1
 ├── preparar_protocolo_final.py # rascunho para revisão
 ├── protocolo_final.py         # validação e congelamento explícito
+├── reparar_manifestos.py      # migração auditada da política legada CRLF/LF
 ├── experimento_final.py       # treinamento e avaliação final
 ├── analisar_resultados_finais.py # drift, importância e erros
 ├── test_experimento_final.py  # integração com dados sintéticos

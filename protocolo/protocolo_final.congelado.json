@@ -1,6 +1,19 @@
 {
   "status": "CONGELADO",
-  "versao": 2,
+  "versao": 3,
+  "hash_policy": {
+    "nome": "sha256_texto_lf_v1",
+    "texto": "UTF-8 com CRLF e CR normalizados para LF antes do SHA-256",
+    "binario": "bytes exatos",
+    "extensoes_texto": [
+      ".csv",
+      ".json",
+      ".md",
+      ".py",
+      ".sha256",
+      ".txt"
+    ]
+  },
   "dados_permitidos_antes_do_congelamento": [
     "D0",
     "D1"
@@ -249,23 +262,33 @@
   ],
   "correcao_software": "documentar erro, preservar resultados e repetir protocolo afetado; nunca selecionar correcao pelo MCC",
   "hashes_fontes": {
-    "ajustar_mlp.py": "270a8625319f7cf0777958a82068c44554a19e6dc22c3b987746f2f834d13391",
-    "selecionar_finetuning.py": "4d854e603a4055f54bcbb0d6de53d0c68c622b85f72fdb144d02d0498162fdae",
-    "construir_base.py": "f2ca7839d0d12d22ceb2200692a2a8da52b295c3e3777920a83530d005d49ce9",
+    "ajustar_mlp.py": "c827fba49717594efeb27076d0c7eae09cf58f59d19699ba568f3a79cfa4a030",
+    "selecionar_finetuning.py": "783dd7c17cc98e33e5506b239b917b8fbc256a5cefef6b7067c144e5177893ea",
+    "construir_base.py": "92b11f0f43b85a436870b534ecd680d9a76ab56a7b2a3b2490b398eed5e7e6fc",
     "analisar_dados_drift.py": "e4e7bd8499e3f3e44d1cc2f99ebd4e7a571f043146d8ccadd52fa75ccc372db2",
     "avaliar_gradient_boosting.py": "c9ac787b9e43458bafde249dda9c20db09f79c4118844e5aa87d821102669b50",
-    "modelos/hiperparametros.json": "032f6dd22c9d170bc4ab722d8cc3aca3c878088793e6df3053fc4f0d7b4bdb63",
-    "modelos/finetuning_escolhido.json": "76c41d3fd59a8b4375d14ab9ff0ddaca993482dccf781fec309b55ee1a49d55d",
-    "protocolo_final.py": "a1eafc2e8361c056126ae658bc88902346167eb77a4745ceebff4beb8082847c",
-    "experimento_final.py": "b65cdd5c5e8fca494b0196a41b065d4bf93a2234a8a3d79fc24cadcc0409246d",
-    "analisar_resultados_finais.py": "6106a48425257a7712ac7f948ac0d12b63b1ee55b55f99fdddff4fa93339772a",
-    "preparar_protocolo_final.py": "eca7b7bbabd3430b56c28e002690515b7b4538ac0913767e3930c6f1e82edd58",
-    "regressao_logistica_zero.py": "74a65432dc3bcdd1498c706a6cd79a8b388203b49cf8320ae6f49f3d12b059f4",
-    "auditoria_billboard.py": "dbb4cf2649c22d906918e5e5f969fdde55163293d55a568cb5c4703620dbb2d4",
-    "comparar_regressao_logistica.py": "9f9bf312a26bb335ce5ec5e4dea09d5c92ee178dd64cd30d74ef68e66c217cba",
-    "requirements.txt": "fd19d88cede1c7b013ab9039cd261bc48155dd05e79ab6fb501f01ca8e94b2df"
+    "modelos/hiperparametros.json": "5ab90b6d55ac5ead9e79b21ff477390321a76b3b167783d0b96dcd93f770f0a1",
+    "modelos/finetuning_escolhido.json": "9ba8e5b74d75f884a2aa07ba053791534f5ee794f7e3663a0202f44bed8b10c1",
+    "protocolo_final.py": "090abf5da60ec137e6afc7d09e2e18fbba313d76141ba0463ad60a89f31048bf",
+    "experimento_final.py": "e04c2e845a394aee61f923b3be9deb792b285f90f4027c5d06bce2ad1aa7bef0",
+    "analisar_resultados_finais.py": "a3ed75db0e8a2754264f2b81d59347567d5e6241c3a55df5eef5d7232d6f1a82",
+    "preparar_protocolo_final.py": "dd168bd3631c08d71eb5c9053b7c8356a12de81c00512bd9e56f76784360d053",
+    "regressao_logistica_zero.py": "9b09558e752f2e027011b78d49d71338691eec086ec7115b2bab09b7d374bb3b",
+    "auditoria_billboard.py": "954ec8f8d29ad6fa91b684a5e70ad75ce164519a81eca8eb71309c079f68b968",
+    "comparar_regressao_logistica.py": "4164d6b3e37af220fb7a32a4ceb986db67785e4e767325c119986674035e0e37",
+    "reparar_manifestos.py": "76bf8e3f4548e07336e7c4cf8be6fb4ebde87c654f84b76bc7dc56ddf7ca6bad",
+    "requirements.txt": "57ef51811fd5784e5ac2668068c39e74ff66990306426d000a11967b12cfd92b"
   },
-  "responsavel_revisao": "Codex: revisao tecnica e congelamento autorizados pelo usuario nesta conversa",
-  "congelado_em_utc": "2026-09-26T12:16:29.463531+00:00",
-  "sha256_rascunho": "3fa92bcab8cf12f120beb52ad2c303b9e4d84d4fd09ccf471fc15830989379f5"
+  "responsavel_revisao": "Equipe AMMCI: correção técnica de reprodutibilidade solicitada em 26/09/2026",
+  "congelado_em_utc": "2026-09-26T14:12:26.537677+00:00",
+  "sha256_rascunho": "6b8734407cf6d9dc0d8d8d189d708866d98e6485a485f051ea0e1c61f3dd89a6",
+  "correcao_reprodutibilidade": {
+    "tipo": "migração de hashes dependentes de CRLF/LF para texto canônico LF",
+    "protocolo_anterior_versao": 2,
+    "protocolo_anterior_sha256_declarado": "ad6e1d1fd71aa741a9454fdad1b2f48dc7a1111e4759630e7f02033a35d0b3a6",
+    "protocolo_anterior_sha256_bytes_no_checkout": "cb061dcf33013366a286222f1a1e002b5c7756bea8cb261d304a770e77c565e7",
+    "decisoes_experimentais_alteradas": false,
+    "d2_usado_para_novas_decisoes": false,
+    "observacao": "D2 já havia sido avaliado; a nova execução é apenas verificação de reprodutibilidade."
+  }
 }

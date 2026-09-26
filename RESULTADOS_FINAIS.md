@@ -1,6 +1,6 @@
 # Avaliação final em D2 — 26/09/2026
 
-O protocolo foi revisado e congelado por autorização explícita do usuário.
+O protocolo experimental foi congelado antes da avaliação original.
 Foram treinados os 16 modelos antes da leitura de D2 pelo avaliador. A execução
 concluiu sem falhas e os hashes dos três conjuntos coincidiram com o protocolo.
 D2 contém 14.200 observações música/semana, de 20/12/2023 a 02/09/2026.
@@ -70,3 +70,15 @@ Esses recortes são descritivos e foram definidos antes da avaliação.
 As nove MLPs treinadas do zero e a regressão logística registraram convergência.
 MFT usa uma época fixa, sem critério de convergência; GB usa 200 iterações fixas.
 Nenhum ajuste foi feito em resposta às métricas de D2.
+
+## Correção de reprodutibilidade R2
+
+A política de hashes da versão 2 dependia das terminações CRLF do Windows e
+falhava depois de um checkout com LF. A versão 3 usa hashes canônicos para
+texto e bytes exatos para binários, sem mudar nenhuma decisão experimental.
+
+Uma reprodução completa posterior à correção treinou novamente os 16 modelos
+e regenerou as análises. As 227.200 previsões, métricas, matrizes, curvas,
+drift, importâncias e erros coincidiram exatamente com os resultados acima;
+somente tempos de execução variaram. A integridade do pacote real passou a ser
+verificada pela suíte automatizada.
