@@ -131,7 +131,7 @@ A hipótese comum é a de E05: variar capacidade, penalização dos pesos e tama
 - **interpretação:** O melhor MCC da configuração C ficou abaixo de B. A hipótese não foi favorecida nessa comparação; análise complementar de E07, sem nova execução independente.
 
 
-## E09-R1
+## E09 - R1
 
 - **hipótese investigada:** A regressão manual deve produzir previsões próximas às da biblioteca sob condições equivalentes.
 - **pergunta:** A regressao propria continua equivalente com embargo?
@@ -144,7 +144,7 @@ A hipótese comum é a de E05: variar capacidade, penalização dos pesos e tama
 - **interpretação:** A concordância de classes foi de 100% e a correlação média de probabilidades de 0,99999990. Isso sustenta a coerência da implementação nas condições testadas.
 
 
-## E10-R1
+## E10 - R1
 
 - **hipótese investigada:** Árvores combinadas podem capturar relações que diferem das aprendidas pela MLP e pela regressão logística.
 - **pergunta:** Como Gradient Boosting se compara as outras familias?
@@ -188,7 +188,7 @@ Seeds atuais: 42 na busca; 42, 1337 e 2024 nos experimentos estocásticos princi
 - **interpretação:** MRT obteve o maior MCC entre as MLPs e GB o maior MCC geral. MFT ganhou pouco em MCC e perdeu recall/F1; atualização não melhorou todas as métricas. Desvios entre sementes não demonstram significância estatística.
 
 
-## E13 — Drift entre os três períodos
+## E13 - Drift entre os três períodos
 
 - **hipótese investigada:** as distribuições dos atributos e do alvo podem mudar em D2 em relação a D0/D1.
 - **dados:** D0, D1 e D2; análise descritiva posterior à avaliação oficial.
@@ -198,7 +198,7 @@ Seeds atuais: 42 na busca; 42, 1337 e 2024 nos experimentos estocásticos princi
 - **decisão:** reportar as mudanças e limitações, sem selecionar atributos ou reajustar modelos com D2.
 - **artefatos:** `resultados/analises_finais/drift.csv`, `resultados/analises_finais/intervalos_psi.csv`, `resultados/analises_finais/alvo_periodos.csv`, `resultados/analises_finais/drift.png`.
 
-## E14 — Importância dos atributos
+## E14 - Importância dos atributos
 
 - **hipótese investigada:** as estratégias de treinamento podem depender de atributos diferentes para prever melhoras.
 - **dados:** modelos já treinados, avaliados em D2 após o teste oficial.
@@ -208,7 +208,7 @@ Seeds atuais: 42 na busca; 42, 1337 e 2024 nos experimentos estocásticos princi
 - **decisão:** usar os resultados para interpretação, sem remover atributos ou retreinar modelos com base em D2.
 - **artefatos:** `resultados/analises_finais/importancias_repeticoes.csv`, `resultados/analises_finais/importancias_seeds.csv`, `resultados/analises_finais/importancias_resumo.csv`, `resultados/analises_finais/importancias.png`.
 
-## E15 — Análise de erros
+## E15 - Análise de erros
 
 - **hipótese investigada:** métricas agregadas podem esconder dificuldades específicas por posição, tempo na parada ou período.
 - **dados:** previsões salvas da avaliação oficial em D2.
@@ -226,7 +226,7 @@ Seeds atuais: 42 na busca; 42, 1337 e 2024 nos experimentos estocásticos princi
 - Configurações e hashes da avaliação oficial: `protocolo/protocolo_final.congelado.json`. Eventos: `resultados/final/execucao.json`. Integridade: `resultados/final/manifesto_resultados.json` e `resultados/analises_finais/manifesto_analises.json`.
 - E01 possui artefato de auditoria anterior à revisão. E02 é decisão herdada. E03 depende de evidência não localizada. E08 reutiliza resultados de E07. Não apresentar esses registros como novos treinamentos independentes.
 
-## E16 — Correção R2 e reprodução multiplataforma
+## E16 - Correção R2 e reprodução multiplataforma
 
 - **hipótese investigada:** normalizar terminações de linha nos hashes deve
   restaurar a reprodutibilidade entre Windows e Linux sem alterar resultados.
