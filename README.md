@@ -420,9 +420,8 @@ devem ser registradas como um novo experimento antes da execução.
 
 ## Uso de IA generativa
 
-Codex/ChatGPT foi utilizado como apoio à implementação de scripts de modelos,
-avaliação e análises, criação de testes e notebooks, auditoria, revisão
-metodológica, interpretação de resultados e documentação. Todo código e todas as decisões
-devem ser revisados pela equipe. O short paper deverá incluir o apêndice exigido
+Codex/ChatGPT foi utilizado como auxilio à implementação de scripts de modelos,
+avaliação e análises e criação de testes e notebooks. Todo código e todas as decisões
+sugeridas pela IA foram revisados pela equipe. O short paper deverá incluir o apêndice exigido
 pelo enunciado com ferramenta, finalidade, conteúdo aproveitado e validação
 realizada pelos integrantes.
