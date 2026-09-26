@@ -30,12 +30,13 @@ de sete dias agora é aplicado dentro dos quatro folds de D0: exigimos
 
 ## Ambiente
 
-O ambiente original foi testado com Python 3.14.4 em Linux. A revisão R1 foi
-executada com Python 3.12 em Windows; versões exatas estão no protocolo E10.
+O ambiente da avaliação final usa Python 3.12.14 em Windows. Recomenda-se
+Python 3.12 e as versões fixadas em `requirements.txt`; as dependências
+verificadas pelo avaliador estão em `protocolo/protocolo_final.congelado.json`.
 Na raiz do repositório:
 
 ```bash
-python3 -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
@@ -44,7 +45,7 @@ python -m pip install -r requirements.txt
 No PowerShell:
 
 ```powershell
-py -m venv .venv
+py -3.12 -m venv .venv
 .venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
@@ -56,6 +57,76 @@ ambiente inclui JupyterLab para os notebooks em `notebooks/`:
 ```bash
 jupyter lab
 ```
+
+Se a ativação no PowerShell estiver bloqueada, use diretamente
+`.venv\Scripts\python.exe` no lugar de `python` e
+`.venv\Scripts\python.exe -m jupyterlab` para abrir o Jupyter.
+
+## Guia rápido para avaliação do projeto
+
+Execute os comandos na raiz do projeto, com o ambiente acima instalado.
+
+### A. Consultar os resultados entregues
+
+Comece por `RESULTADOS_FINAIS.md` e abra os notebooks, que já contêm saídas
+salvas. Ler as saídas não exige repetir os treinamentos:
+
+| Notebook | Conteúdo |
+|---|---|
+| `notebooks/01_auditoria_aed.ipynb` | Auditoria, análise exploratória e drift D0→D1 |
+| `notebooks/02_modelos_validacao.ipynb` | Validação temporal, comparação dos modelos e fine-tuning |
+| `notebooks/03_experimento_final_drift.ipynb` | Resultados finais, custos e drift entre períodos |
+| `notebooks/04_explicabilidade_erros.ipynb` | Importância dos atributos e análise de erros |
+
+Para executar novamente as células de 01/02, prepare D0/D1 primeiro:
+
+```bash
+python baixar_dados.py
+python preparar_desenvolvimento.py
+python -m jupyterlab
+```
+
+No Jupyter, escolha o kernel do ambiente do projeto e execute todas as células.
+O notebook 01 recalcula a AED e regrava seus artefatos. O 02 lê os resultados
+de seleção entregues. Os notebooks 03/04 verificam e apresentam os artefatos
+finais; não treinam modelos nem precisam dos CSVs brutos para essa leitura.
+Executar todos os notebooks não repete todos os experimentos de treinamento.
+
+### B. Verificar o código com testes automáticos
+
+```bash
+python -m unittest discover -v
+```
+
+São 31 testes na versão entregue, incluindo regressão manual, embargo temporal,
+integridade dos arquivos e integração final com dados sintéticos temporários.
+Não é necessário baixar os dados reais para esses testes. Mantenha os notebooks,
+configurações e o rascunho de protocolo entregues, que também são usados pelos testes.
+
+### C. Reproduzir a avaliação final com dados reais
+
+Use o protocolo já congelado e diretórios de saída novos:
+
+```bash
+python baixar_dados.py
+python construir_base.py
+python experimento_final.py --saida resultados/reproducao_final
+python analisar_resultados_finais.py --final resultados/reproducao_final --saida resultados/reproducao_analises
+```
+
+Isso treina os 16 modelos e avalia o mesmo D2, sem refazer a busca de parâmetros.
+Compare `resultados/reproducao_final/resumo.csv` com `resultados/final/resumo.csv`.
+Tempos dependem da máquina; diferenças numéricas podem ocorrer entre plataformas.
+Se uma pasta de saída já existir, escolha outro nome com `--saida`; o avaliador
+e o analisador recusam sobrescrevê-la. Os notebooks continuam apontando para
+os resultados oficiais em `resultados/final/` e `resultados/analises_finais/`.
+
+Não execute novamente a seleção de hiperparâmetros, a preparação do rascunho
+ou o congelamento para esse caminho de reprodução. O avaliador verifica hashes
+do código/configurações e as versões das dependências. Em caso de divergência,
+confira esses arquivos e o ambiente; não modifique os hashes para contornar a verificação.
+Os hashes são dos bytes: preserve também as terminações de linha dos arquivos
+ao extrair o ZIP ou obter o projeto pelo Git.
 
 ## Dataset
 
@@ -74,9 +145,14 @@ divergentes e valida tanto o ZIP quanto cada CSV. Os CSVs brutos e processados
 são ignorados pelo Git devido ao tamanho. Seus hashes estão documentados em
 `dados/MANIFESTO_FONTE.txt` e `dados/processados/manifesto.txt`.
 
-## Ordem de execução
+## Etapas do desenvolvimento e reprodução das buscas
 
-Execute sempre a partir da raiz do repositório.
+Esta seção documenta como os experimentos foram construídos. Para conferir
+a entrega ou repetir o teste final, prefira o guia rápido acima. As buscas
+abaixo regravam configurações e relatórios; execute-as em uma cópia separada
+se quiser reproduzir também a seleção. Arquivos regenerados podem divergir
+dos hashes da avaliação oficial, inclusive por diferenças de serialização.
+Execute sempre a partir da raiz dessa cópia.
 
 ### 1. Auditoria da fonte
 
@@ -210,12 +286,14 @@ python preparar_protocolo_final.py
 
 Esse comando cria `protocolo/protocolo_final.rascunho.json` e seu SHA-256,
 sem abrir D2. O rascunho precisa da revisão da equipe e do congelamento
-formal, conforme a etapa 13 do plano, antes de qualquer avaliação futura.
+formal antes de executar um novo protocolo. Para reproduzir a avaliação já
+entregue, use o protocolo congelado existente, conforme o guia rápido.
 
 A implementação e a avaliação real foram concluídas em 26/09/2026, após revisão
 e congelamento autorizados pelo usuário. Veja `RESULTADOS_FINAIS.md`.
-Os comandos abaixo documentam a sequência usada; os destinos existentes
-são protegidos contra sobrescrita:
+Os comandos abaixo documentam a sequência original, anterior à existência
+dos resultados finais. O congelamento e as saídas finais recusam sobrescrita;
+não execute esse bloco como um procedimento de reprodução da entrega:
 
 ```bash
 python protocolo_final.py --responsavel "Nome de quem revisou" --confirmar-revisao
@@ -273,6 +351,7 @@ Os testes finais usam conjuntos sintéticos temporários, sem acessar D2 real.
 ├── experimento_final.py       # treinamento e avaliação final
 ├── analisar_resultados_finais.py # drift, importância e erros
 ├── test_experimento_final.py  # integração com dados sintéticos
+├── test_protocolo_drift.py    # embargo, fine-tuning e medidas de drift
 ├── notebooks/
 ├── protocolo/
 ├── dados/
@@ -281,7 +360,13 @@ Os testes finais usam conjuntos sintéticos temporários, sem acessar D2 real.
 ├── modelos/                    # resultados da MLP e fine-tuning
 └── resultados/
     ├── auditoria_integridade/
-    └── regressao_logistica/
+    ├── regressao_logistica/
+    ├── gradient_boosting/
+    ├── convergencia/
+    ├── aed_drift/
+    ├── revisao_temporal/
+    ├── final/
+    └── analises_finais/
 ```
 
 ## Resultados revisados (R1)
@@ -299,20 +384,36 @@ Os testes finais usam conjuntos sintéticos temporários, sem acessar D2 real.
 - regressão própria e scikit-learn: 100% de concordância nas classes.
 
 Os desvios temporais E10 usam `ddof=0` sobre médias por fold; E09 usa
-desvio amostral `ddof=1`. Na tabela final futura, os desvios serão entre seeds.
+desvio amostral `ddof=1`. Na tabela final, os desvios são entre seeds (`ddof=1`).
 Resultados de busca (seed 42) não devem ser confundidos com médias entre seeds.
+
+## Resultados finais em D2
+
+| Modelo | MCC médio | Desvio entre seeds |
+|---|---:|---:|
+| GB | 0,1978 | 0,0000 |
+| MRT | 0,1789 | 0,0064 |
+| MREC | 0,1715 | 0,0053 |
+| MFT | 0,1681 | 0,0069 |
+| M0 | 0,1623 | 0,0021 |
+| Regressão logística | 0,1309 | Não aplicável: uma execução determinística |
+
+Interpretação, demais métricas e limitações em `RESULTADOS_FINAIS.md`.
 
 ## Reprodutibilidade e dados ignorados
 
 As seeds, cortes, features e censuras são constantes explícitas nos scripts.
-Arquivos grandes não são versionados; compare os hashes dos manifestos depois
-de qualquer reconstrução. Mudanças em cortes, atributos, limiares ou seeds
+Os CSVs brutos e processados e o ambiente `.venv/` são ignorados pelo Git.
+Os artefatos finais, incluindo `modelos.joblib` e `previsoes.csv`, devem
+acompanhar a entrega: os notebooks verificam seus manifestos. Compare os
+hashes dos dados depois de qualquer reconstrução. Mudanças em cortes, atributos, limiares ou seeds
 devem ser registradas como um novo experimento antes da execução.
 
 ## Uso de IA generativa
 
-Ferramentas de IA generativa foram usadas como apoio à auditoria, organização
-do projeto, revisão metodológica e documentação. Todo código e todas as decisões
+Codex/ChatGPT foi utilizado como apoio à implementação de scripts de modelos,
+avaliação e análises, criação de testes e notebooks, auditoria, revisão
+metodológica, interpretação de resultados e documentação. Todo código e todas as decisões
 devem ser revisados pela equipe. O short paper deverá incluir o apêndice exigido
 pelo enunciado com ferramenta, finalidade, conteúdo aproveitado e validação
 realizada pelos integrantes.
